@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.Reservation;
+
 /**
  * Servlet implementation class MyServlet
  */
 @WebServlet("/MyServlet")
 public class MyServlet extends HttpServlet {
+	Reservation r = new Reservation();
+	
 	private static final long serialVersionUID = 1L;
     public MyServlet() {
         super();
@@ -22,11 +26,13 @@ public class MyServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		out.println("<html><body>");
-		out.println("<h3>Hello it works!!</h3>");
+		out.println(r.getGuestName()+" "+r.getEmail());
 		out.println("</body></html>");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		r.setGuestName(request.getParameter("username"));
+		r.setEmail(request.getParameter("email"));
 		doGet(request, response);
 	}
 
