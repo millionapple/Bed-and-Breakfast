@@ -26,13 +26,20 @@ public class MyServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		out.println("<html><body>");
-		out.println(r.getGuestName()+" "+r.getEmail());
+		out.println("reservationId"+r.reservId+" Guest Name: "+r.getGuestName()+" Email: "+r.getEmail()+" Phone: "+r.getPhone());
+		out.println("Arrival: "+r.getArrival()+" Departure: "+r.getDeparture()+" Rooms: "+r.getRooms()+" Price: "+r.getPrice());
 		out.println("</body></html>");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		r.reservId +=1;
 		r.setGuestName(request.getParameter("username"));
 		r.setEmail(request.getParameter("email"));
+		r.setPhone(request.getParameter("phone"));
+		r.setArrival(request.getParameter("arrival"));
+		r.setDeparture(request.getParameter("departure"));
+		r.setRooms(Integer.parseInt(request.getParameter("rooms")));
+		r.setPrice(r.getRooms()*100);
 		doGet(request, response);
 	}
 

@@ -3,6 +3,7 @@ package beans;
 import dao.ReservationDao;
 
 public class Reservation {
+	public static int reservId = 0;
 	private String guestName;
 	private String email;
 	private String phone;

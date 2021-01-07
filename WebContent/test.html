@@ -8,6 +8,10 @@
 	<form name="loginForm" method="post" action="MyServlet">
     Username: <input type="text" name="username"/> <br/>
     Email: <input type="email" name="email"/> <br/>
+    Phone: <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/><br/>
+    Arrival Date:<input type="date" name="arrival"/><br/>
+    Departure Date:<input type="date" name="departure"/><br/>
+    Rooms:<input type="number" min="1" max="8" value="1" name="rooms"/><br/>
     <input type="submit" value="Login" />
 </form>
 </body>
