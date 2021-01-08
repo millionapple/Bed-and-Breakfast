@@ -29,8 +29,8 @@ public class MyServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter(); 
 		out.println("<html><body>");
-		out.println("reservationId"+r.reservId+" Guest Name: "+r.getGuestName()+" Email: "+r.getEmail()+" Phone: "+r.getPhone());
-		out.println("Arrival: "+r.getArrival()+" Departure: "+r.getDeparture()+" Rooms: "+r.getRooms()+" Price: "+r.getPrice());
+		out.println("reservationId: "+r.reservId+"<br/> Guest Name: "+r.getGuestName()+"<br/> Email: "+r.getEmail()+"<br/> Phone: "+r.getPhone());
+		out.println("<br/> Arrival: "+r.getArrival()+"<br/> Departure: "+r.getDeparture()+"<br/> Rooms: "+r.getRooms()+"<br/> Price: "+r.getPrice());
 		out.println("</body></html>"); 
 	}
 
