@@ -12,6 +12,7 @@ import connection.ConnectionUtil;
 import logs.LogUtil;
 
 public class ReservationDao {
+	//for some reason that I don't know yet it will not connect to the driver
 	public void addReservation(Reservation r) {
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			conn.setAutoCommit(false);
