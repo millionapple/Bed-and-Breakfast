@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.Reservation;
+import dao.ReservationDao;
 
 /**
  * Servlet implementation class MyServlet
@@ -17,6 +18,8 @@ import beans.Reservation;
 @WebServlet("/MyServlet")
 public class MyServlet extends HttpServlet {
 	Reservation r = new Reservation();
+	ReservationDao rd = new ReservationDao();
+    
 	
 	private static final long serialVersionUID = 1L;
     public MyServlet() {
@@ -24,15 +27,15 @@ public class MyServlet extends HttpServlet {
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
+		PrintWriter out = response.getWriter(); 
 		out.println("<html><body>");
 		out.println("reservationId"+r.reservId+" Guest Name: "+r.getGuestName()+" Email: "+r.getEmail()+" Phone: "+r.getPhone());
 		out.println("Arrival: "+r.getArrival()+" Departure: "+r.getDeparture()+" Rooms: "+r.getRooms()+" Price: "+r.getPrice());
-		out.println("</body></html>");
+		out.println("</body></html>"); 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		r.reservId +=1;
+		r.reservId =2;
 		r.setGuestName(request.getParameter("username"));
 		r.setEmail(request.getParameter("email"));
 		r.setPhone(request.getParameter("phone"));
