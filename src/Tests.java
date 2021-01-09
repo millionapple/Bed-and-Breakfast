@@ -44,11 +44,11 @@ public class Tests {
 	@Test
 	public void testPost() {
 		Reservation r = new Reservation();
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?userSSL=false", "TwoBitheads", "TwoBitheadsBnB")){
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement("Insert into reservations(idreservations, guestname, email, phone, arrival, departure, rooms, price)\r\n" + 
 					"values(?, ?, ?, ?, ?, ?, ?, ?);");
-			stmt.setInt(1, 4);
+			stmt.setInt(1, 5);
 			stmt.setString(2, "Garrett");
 			stmt.setString(3, "my@email.com");
 			stmt.setString(4, "098-765-4321");

@@ -44,7 +44,8 @@ public class MyServlet extends HttpServlet {
 		r.setRooms(Integer.parseInt(request.getParameter("rooms")));
 		r.setPrice(r.getRooms()*100);
 		//change to ReservationDao.addReservation when I can connect to the driver from packages
-		doGet(request, response);
+		Tests t = new Tests();
+		t.testPost();
 	}
 
 }
