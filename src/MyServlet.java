@@ -43,9 +43,18 @@ public class MyServlet extends HttpServlet {
 		r.setDeparture(request.getParameter("departure"));
 		r.setRooms(Integer.parseInt(request.getParameter("rooms")));
 		r.setPrice(r.getRooms()*100);
-		//change to ReservationDao.addReservation when I can connect to the driver from packages
-		Tests t = new Tests();
-		t.testPost();
+		try {
+			rd.addReservation(r);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

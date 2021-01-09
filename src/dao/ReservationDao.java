@@ -13,19 +13,20 @@ import logs.LogUtil;
 
 public class ReservationDao {
 	//for some reason that I don't know yet it will not connect to the driver
-	public void addReservation(Reservation r) {
+	public void addReservation(Reservation r) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement("Insert into reservations(idreservations, guestname, email, phone, arrival, departure, rooms, price)\r\n" + 
 					"values(?, ?, ?, ?, ?, ?, ?, ?);");
-			stmt.setInt(1, 4);
-			stmt.setString(2, "Garrett");
-			stmt.setString(3, "my@email.com");
-			stmt.setString(4, "098-765-4321");
-			stmt.setString(5, "2021-01-07");
-			stmt.setString(6, "2021-01-12");
-			stmt.setInt(7, 2);
-			stmt.setDouble(8, 200);
+			stmt.setInt(1, r.reservId);
+			stmt.setString(2, r.getGuestName());
+			stmt.setString(3, r.getEmail());
+			stmt.setString(4, r.getPhone());
+			stmt.setString(5, r.getArrival());
+			stmt.setString(6, r.getDeparture());
+			stmt.setInt(7, r.getRooms());
+			stmt.setDouble(8, r.getPrice());
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
 				System.out.println("The comment request was successful!");

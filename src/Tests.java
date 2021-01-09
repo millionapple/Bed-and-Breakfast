@@ -42,8 +42,9 @@ public class Tests {
 	}
 	
 	@Test
-	public void testPost() {
+	public void testPost() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Reservation r = new Reservation();
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?userSSL=false", "TwoBitheads", "TwoBitheadsBnB")){
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement("Insert into reservations(idreservations, guestname, email, phone, arrival, departure, rooms, price)\r\n" + 
