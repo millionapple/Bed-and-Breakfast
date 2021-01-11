@@ -15,22 +15,22 @@ import dao.ReservationDao;
 /**
  * Servlet implementation class MyServlet
  */
-@WebServlet("/MyServlet")
-public class MyServlet extends HttpServlet {
+@WebServlet("/Reservations")
+public class Reservations extends HttpServlet {
 	Reservation r = new Reservation();
 	ReservationDao rd = new ReservationDao();
     
 	
 	private static final long serialVersionUID = 1L;
-    public MyServlet() {
+    public Reservations() {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter(); 
 		out.println("<html><body>");
-		out.println("reservationId: "+r.reservId+"<br/> Guest Name: "+r.getGuestName()+"<br/> Email: "+r.getEmail()+"<br/> Phone: "+r.getPhone());
-		out.println("<br/> Arrival: "+r.getArrival()+"<br/> Departure: "+r.getDeparture()+"<br/> Rooms: "+r.getRooms()+"<br/> Price: "+r.getPrice());
+		out.println("reservationId: "+"<br/> Guest Name: "+"<br/> Email: "+"<br/> Phone: ");
+		out.println("<br/> Arrival: "+"<br/> Departure: "+"<br/> Rooms: "+"<br/> Price: ");
 		out.println("</body></html>"); 
 	}
 
@@ -53,6 +53,7 @@ public class MyServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		response.sendRedirect("/DynamicTwoBitheads-BnB/MadeReservations.html");
 	}
 
 }
