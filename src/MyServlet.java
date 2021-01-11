@@ -35,7 +35,6 @@ public class MyServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		r.reservId =6;
 		r.setGuestName(request.getParameter("username"));
 		r.setEmail(request.getParameter("email"));
 		r.setPhone(request.getParameter("phone"));

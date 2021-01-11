@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import beans.Reservation;
-import connection.ConnectionUtil;
 
 public class Tests {
 	boolean valid = false;
@@ -44,20 +43,18 @@ public class Tests {
 	
 	@Test
 	public void testPost() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		Reservation r = new Reservation();
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?userSSL=false", "TwoBitheads", "TwoBitheadsBnB")){
 			conn.setAutoCommit(false);
-			PreparedStatement stmt = conn.prepareStatement("Insert into reservations(idreservations, guestname, email, phone, arrival, departure, rooms, price)\r\n" + 
-					"values(?, ?, ?, ?, ?, ?, ?, ?);");
-			stmt.setInt(1, 5);
-			stmt.setString(2, "Garrett");
-			stmt.setString(3, "my@email.com");
-			stmt.setString(4, "098-765-4321");
-			stmt.setString(5, "2021/01/07");
-			stmt.setString(6, "2021/01/12");
-			stmt.setInt(7, 2);
-			stmt.setDouble(8, 200);
+			PreparedStatement stmt = conn.prepareStatement("Insert into reservations(guestname, email, phone, arrival, departure, rooms, price)\r\n" + 
+					"values(?, ?, ?, ?, ?, ?, ?);");
+			stmt.setString(1, "Garrett");
+			stmt.setString(2, "my@email.com");
+			stmt.setString(3, "098-765-4321");
+			stmt.setString(4, "2021/01/07");
+			stmt.setString(5, "2021/01/12");
+			stmt.setInt(6, 2);
+			stmt.setDouble(7, 200);
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
 				System.out.println("The comment request was successful!");
