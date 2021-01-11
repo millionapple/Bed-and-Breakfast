@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import org.junit.Test;
 
@@ -69,4 +70,13 @@ public class Tests {
 			System.out.println(e);
 		}
 	}
+
+	@Test
+	public void testCompareDate() {
+		LocalDate start = LocalDate.parse("2021-01-11");
+		LocalDate end = LocalDate.parse("2021-01-22");
+		int days = end.compareTo(start);
+		assertEquals(days, 11);
+	}
+
 }

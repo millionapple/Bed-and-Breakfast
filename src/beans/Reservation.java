@@ -1,6 +1,9 @@
 package beans;
 
-import dao.ReservationDao;
+
+import java.time.LocalDate;
+
+
 
 public class Reservation {
 	public static int reservId = 0;
@@ -48,17 +51,11 @@ public class Reservation {
 		this.rooms = rooms;
 	}
 	public double getPrice() {
+		LocalDate start = LocalDate.parse(arrival);
+		LocalDate end = LocalDate.parse(departure);
+		int days = end.compareTo(start);
+		System.out.println(end.compareTo(start));
+		price = (days*100)*rooms;
 		return price;
 	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	
-	//should be called from front end with the information needed to complete the transaction
-	//this then calls a method in ReservationDao that will store the information on the database
-//	public void addReservation() {
-//		ReservationDao rd = new ReservationDao();
-//		price = rooms *100;
-//		rd.addReservation(guestName, email, phone, arrival, departure, rooms, price);
-//	}
 }

@@ -35,14 +35,13 @@ public class MyServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		r.reservId =2;
+		r.reservId =6;
 		r.setGuestName(request.getParameter("username"));
 		r.setEmail(request.getParameter("email"));
 		r.setPhone(request.getParameter("phone"));
 		r.setArrival(request.getParameter("arrival"));
 		r.setDeparture(request.getParameter("departure"));
 		r.setRooms(Integer.parseInt(request.getParameter("rooms")));
-		r.setPrice(r.getRooms()*100);
 		try {
 			rd.addReservation(r);
 		} catch (InstantiationException e) {
