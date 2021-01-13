@@ -12,12 +12,12 @@ function deleteReservation(){
 	console.log("hello");
 	let btn = event.target;
 	let id = btn.id;
-	var param = 'orem=orem';
 	console.log(id);
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = reloadReq;
-	xhttp.open('DELETE', 'Reservations');
-	xhttp.send(id);
+	xhttp.open('POST', 'ReservationsDelete');
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("id="+id);
 	function reloadReq(){
 		if(xhttp.readyState === 4 && xhttp.status === 200) {
 			location.reload();

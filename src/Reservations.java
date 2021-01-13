@@ -75,8 +75,4 @@ public class Reservations extends HttpServlet {
 		response.sendRedirect("/DynamicTwoBitheads-BnB/MadeReservations.html");
 	}
 
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		System.out.println("hello "+request.getParameter("rooms"));
-		System.out.println(request);
-	}
 }
