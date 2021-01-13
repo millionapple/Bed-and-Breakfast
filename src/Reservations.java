@@ -35,10 +35,10 @@ public class Reservations extends HttpServlet {
 		try {
 			rl = rd.getAllReservations();
 			out.println("<table>");
-			out.println("<tr><th>Reservation id</th><th>Guest Name</th><th>Email</th><th>Phone</th><th>Arrival</th><th>Departure</th><th>Rooms</th><th>Price</th></tr>");
+			out.println("<tr><th>Reservation id</th><th>Guest Name</th><th>Email</th><th>Phone</th><th>Arrival</th><th>Departure</th><th>Rooms</th><th>Price</th><th>Delete</th></tr>");
 			for(Reservation r : rl) {
-				out.println("<tr><td>"+r.reservId+"</td><td>"+r.getGuestName()+"</td><td>"+r.getEmail()+"</td><td>"+r.getPhone()+"</td>");
-				out.println("<td>"+r.getArrival()+"</td><td>"+r.getDeparture()+"</td><td>"+r.getRooms()+"</td><td>"+r.getPrice()+"</td></tr>");
+				out.println("<tr id='"+r.reservId+"'><td>"+r.reservId+"</td><td>"+r.getGuestName()+"</td><td>"+r.getEmail()+"</td><td>"+r.getPhone()+"</td>");
+				out.println("<td>"+r.getArrival()+"</td><td>"+r.getDeparture()+"</td><td>"+r.getRooms()+"</td><td>"+r.getPrice()+"</td><td><button onclick=\"deleteReservation()\" id=\""+r.reservId+"\">Delete</button></td></tr>");
 			}
 			out.println("</table>");
 		} catch (InstantiationException e) {
@@ -75,4 +75,8 @@ public class Reservations extends HttpServlet {
 		response.sendRedirect("/DynamicTwoBitheads-BnB/MadeReservations.html");
 	}
 
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		System.out.println("hello "+request.getParameter("rooms"));
+		System.out.println(request);
+	}
 }

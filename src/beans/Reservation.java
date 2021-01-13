@@ -54,7 +54,6 @@ public class Reservation {
 		LocalDate start = LocalDate.parse(arrival);
 		LocalDate end = LocalDate.parse(departure);
 		int days = end.compareTo(start);
-		System.out.println(end.compareTo(start));
 		price = (days*100)*rooms;
 		return price;
 	}
