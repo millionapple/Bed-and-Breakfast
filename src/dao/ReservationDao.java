@@ -3,6 +3,9 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +41,24 @@ public class ReservationDao {
 	
 	public List<Reservation> getAllReservations(){
 		List<Reservation> rl = new ArrayList<>();
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+			PreparedStatement stmt = conn.prepareStatement("select * from reservations");
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Reservation r = new Reservation();
+				 DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+				r.reservId = rs.getInt("idreservations");
+				r.setGuestName(rs.getString("guestname"));
+				r.setEmail(rs.getString("email"));
+				r.setPhone(rs.getString("phone"));
+				r.setArrival(dateFormat.format(rs.getDate("arrival")));
+				r.setDeparture(dateFormat.format(rs.getDate("departure")));
+				r.setRooms(rs.getInt("rooms"));
+				rl.add(r);
+			}
+		}catch(Exception e){
+			System.out.println(e);
+		}
 		
 		return rl;
 	}
