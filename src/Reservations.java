@@ -2,6 +2,8 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,10 +30,27 @@ public class Reservations extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter(); 
-		out.println("<html><body>");
-		out.println("reservationId: "+"<br/> Guest Name: "+"<br/> Email: "+"<br/> Phone: ");
-		out.println("<br/> Arrival: "+"<br/> Departure: "+"<br/> Rooms: "+"<br/> Price: ");
-		out.println("</body></html>"); 
+		ReservationDao rd = new ReservationDao();
+		List<Reservation> rl;
+		try {
+			rl = rd.getAllReservations();
+			out.println("<table>");
+			out.println("<tr><th>Reservation id</th><th>Guest Name</th><th>Email</th><th>Phone</th><th>Arrival</th><th>Departure</th><th>Rooms</th><th>Price</th></tr>");
+			for(Reservation r : rl) {
+				out.println("<tr><td>"+r.reservId+"</td><td>"+r.getGuestName()+"</td><td>"+r.getEmail()+"</td><td>"+r.getPhone()+"</td>");
+				out.println("<td>"+r.getArrival()+"</td><td>"+r.getDeparture()+"</td><td>"+r.getRooms()+"</td><td>"+r.getPrice()+"</td></tr>");
+			}
+			out.println("</table>");
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -39,14 +39,16 @@ public class ReservationDao {
 		}
 }
 	
-	public List<Reservation> getAllReservations(){
+	public List<Reservation> getAllReservations() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		List<Reservation> rl = new ArrayList<>();
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			PreparedStatement stmt = conn.prepareStatement("select * from reservations");
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				Reservation r = new Reservation();
-				 DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+				 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				 
 				r.reservId = rs.getInt("idreservations");
 				r.setGuestName(rs.getString("guestname"));
 				r.setEmail(rs.getString("email"));
