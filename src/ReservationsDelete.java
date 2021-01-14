@@ -7,12 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.ReservationDao;
+
 /**
  * Servlet implementation class ReservationsDelete
  */
 @WebServlet("/ReservationsDelete")
 public class ReservationsDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ReservationDao rd = new ReservationDao();
     public ReservationsDelete() {
         super();
         // TODO Auto-generated constructor stub
@@ -23,7 +26,18 @@ public class ReservationsDelete extends HttpServlet {
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println(request.getParameter("id"));
-		doGet(request, response);
+		try {
+			rd.deleteReservation(request.getParameter("id"));
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

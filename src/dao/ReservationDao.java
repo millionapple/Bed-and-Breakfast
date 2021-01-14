@@ -64,6 +64,25 @@ public class ReservationDao {
 		
 		return rl;
 	}
+
+	public void deleteReservation(String resId) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM `twobitheadsbnb`.`reservations` WHERE (`idreservations` = ?);");
+			stmt.setString(1, resId);
+			System.out.println(resId);
+			int rowsUpdated = stmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("The comment request was successful!");
+				conn.commit();
+			} else {
+				System.out.println("comment was not successful");
+				conn.rollback();
+			}
+		}catch(Exception e){
+			System.out.println(e);
+		}
+	}
 }
 
 
