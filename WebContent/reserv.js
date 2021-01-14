@@ -24,3 +24,24 @@ function deleteReservation(){
 		}
 	}
 }
+//the form stuff
+var span = document.getElementsByClassName("close")[0];
+var modal = document.getElementById("myModal");
+
+
+function updateForm(){
+	let btn = event.target;
+	let id = btn.id;
+	var modal = document.getElementById("myModal");
+	var reservId = document.getElementById("reserv");
+	var t = document.createTextNode(id);
+	reservId.appendChild(t);
+	 modal.style.display = "block";
+	 
+}
+
+function closeModal(){
+	var modal = document.getElementById("myModal");
+	 modal.style.display = "none";
+}
+
