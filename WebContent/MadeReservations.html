@@ -10,21 +10,21 @@
 <body onload="getReservations()">
  <p id="demo"></p>
 	<input type="button" onClick="getReservations()" value="Refresh"/>
-	<input type="button" onClick="updateForm()" value="Update" id="10"/>
+	<input type="button" onClick="updateForm()" value="Update" id="1"/>
 	
 <div id="myModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close" onClick="closeModal()">&times;</span>
-   	<form action="ReservationsDelete" mehtod="GET" name="update">
-   		Reservation ID:<span id="reserv" name="reservId"></span><br/>
-   		Username: <input type="text" name="username"/> <br/>
-    	Email: <input type="email" name="email"/> <br/>
-    	Phone: <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/><br/>
-    	Arrival Date:<input type="date" name="arrival"/><br/>
-    	Departure Date:<input type="date" name="departure"/><br/>
-    	Rooms:<input type="number" min="1" max="8" value="1" name="rooms"/><br/>
-    	<input type="submit" value="Login"/>
+   	<form action="ReservationsDelete" mehtod="GET" name="update" id="updateForm">
+   		Reservation ID:<input name="resId" type="number" id="resId" readonly><br/>
+   		Username: <input id="name" type="text" name="username"/> <br/>
+    	Email: <input id="email" type="email" name="email"/> <br/>
+    	Phone: <input id="phone" type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/><br/>
+    	Arrival Date:<input id="arrival" type="date" name="arrival"/><br/>
+    	Departure Date:<input id="departure" type="date" name="departure"/><br/>
+    	Rooms:<input id="rooms" type="number" min="1" max="8" value="1" name="rooms"/><br/>
+    	<input type="submit" value="update"/>
    	</form>
   </div>
 

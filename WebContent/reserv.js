@@ -32,10 +32,16 @@ var modal = document.getElementById("myModal");
 function updateForm(){
 	let btn = event.target;
 	let id = btn.id;
+	var info = document.getElementById(id).childNodes;
 	var modal = document.getElementById("myModal");
-	var reservId = document.getElementById("reserv");
-	var t = document.createTextNode(id);
-	reservId.appendChild(t);
+	console.log(info);
+	document.getElementById("resId").setAttribute("value", info[0].innerText);
+	document.getElementById("name").setAttribute("value", info[1].innerText);
+	document.getElementById("email").setAttribute("value", info[2].innerText);
+	document.getElementById("phone").setAttribute("value", info[3].innerText);
+	document.getElementById("arrival").setAttribute("value", info[5].innerText);
+	document.getElementById("departure").setAttribute("value", info[6].innerText);
+	document.getElementById("rooms").setAttribute("value", info[7].innerText);
 	 modal.style.display = "block";
 	 
 }
