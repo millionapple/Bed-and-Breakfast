@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.Reservation;
 import dao.ReservationDao;
 
 /**
@@ -27,7 +28,27 @@ public class ReservationsDelete extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter(); 
 		ReservationDao rd = new ReservationDao();
-		out.println(request.getParameter("username"));
+		Reservation r = new Reservation();
+		r.reservId = Integer.parseInt(request.getParameter("resId"));
+		r.setGuestName(request.getParameter("username"));
+		r.setEmail(request.getParameter("email"));
+		r.setPhone(request.getParameter("phone"));
+		r.setArrival(request.getParameter("arrival"));
+		r.setDeparture(request.getParameter("departure"));
+		r.setRooms(Integer.parseInt(request.getParameter("rooms")));
+		try {
+			rd.updateReservation(r);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response.sendRedirect("MadeReservations.html");
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println(request.getParameter("id"));
