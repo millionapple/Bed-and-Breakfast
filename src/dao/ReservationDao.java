@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import beans.Reservation;
 
@@ -48,7 +49,7 @@ public class ReservationDao {
 			while(rs.next()) {
 				Reservation r = new Reservation();
 				 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				 
+				 dateFormat.setTimeZone(TimeZone.getTimeZone("CT"));
 				r.reservId = rs.getInt("idreservations");
 				r.setGuestName(rs.getString("guestname"));
 				r.setEmail(rs.getString("email"));
