@@ -18,11 +18,11 @@
     <span class="close" onClick="closeModal()">&times;</span>
    	<form action="ReservationsDelete" mehtod="GET" name="update" id="updateForm">
    		Reservation ID:<input name="resId" type="number" id="resId" readonly><br/>
-   		Full Name: <input id="name" type="text" name="username"/> <br/>
-    	Email: <input id="email" type="email" name="email"/> <br/>
-    	Phone: <input id="phone" type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/><br/>
-    	Arrival Date:<input id="arrival" type="date" name="arrival"/><br/>
-    	Departure Date:<input id="departure" type="date" name="departure"/><br/>
+   		Full Name: <input id="name" type="text" name="username" required/> <br/>
+    	Email: <input id="email" type="email" name="email" placeholder="my@email.com"/> <br/>
+    	Phone: <input id="phone" type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx"/><br/>
+    	Arrival Date:<input id="arrival" type="date" name="arrival" required/><br/>
+    	Departure Date:<input id="departure" type="date" name="departure" required/><br/>
     	Rooms:<input id="rooms" type="number" min="1" max="8" value="1" name="rooms"/><br/>
     	<input type="submit" value="update"/>
    	</form>
