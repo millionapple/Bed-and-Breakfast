@@ -20,3 +20,4 @@ select guestName from reservations;
 ALTER TABLE `twobitheadsbnb`.`reservations` 
 CHANGE COLUMN `idreservations` `idreservations` INT NOT NULL AUTO_INCREMENT;
 alter table `twobitheadsbnb`.`reservations` auto_increment=1;
+ALTER TABLE reservations ADD days int;
