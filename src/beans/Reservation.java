@@ -2,6 +2,7 @@ package beans;
 
 
 import java.time.LocalDate;
+import java.time.Period;
 
 
 
@@ -14,6 +15,7 @@ public class Reservation {
 	private String departure;
 	private int rooms;
 	private double price;
+	private long days;
 	public String getGuestName() {
 		return guestName;
 	}
@@ -51,10 +53,17 @@ public class Reservation {
 		this.rooms = rooms;
 	}
 	public double getPrice() {
-		LocalDate start = LocalDate.parse(arrival);
-		LocalDate end = LocalDate.parse(departure);
-		int days = end.compareTo(start);
+		long days = getDays();
 		price = (days*100)*rooms;
 		return price;
+	}
+	public long getDays() {
+		LocalDate start = LocalDate.parse(arrival);
+		LocalDate end = LocalDate.parse(departure);
+		long days = Period.between(start, end).getDays();
+		return days;
+	}
+	public void setDays(long days) {
+		this.days = days;
 	}
 }

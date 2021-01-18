@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Period;
 
 import org.junit.Test;
 
@@ -70,10 +71,10 @@ public class Tests {
 
 	@Test
 	public void testCompareDate() {
-		LocalDate start = LocalDate.parse("2021-01-11");
-		LocalDate end = LocalDate.parse("2021-01-22");
-		int days = end.compareTo(start);
-		assertEquals(days, 11);
+		LocalDate start = LocalDate.parse("2021-01-10");
+		LocalDate end = LocalDate.parse("2021-02-01");
+		long days = Period.between(start, end).getDays();
+		assertEquals(days, 22);
 	}
 
 }

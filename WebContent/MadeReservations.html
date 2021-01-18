@@ -10,7 +10,7 @@
 <body onload="getReservations()">
  <p id="demo"></p>
 	<input type="button" onClick="getReservations()" value="Refresh"/>
-	<button><a href="test.html">Make a Reservation</a></button>
+	<button><a href="ReservationForm.html">Make a Reservation</a></button>
 	
 <div id="myModal" class="modal">
   <!-- Modal content -->
@@ -18,7 +18,7 @@
     <span class="close" onClick="closeModal()">&times;</span>
    	<form action="ReservationsDelete" mehtod="GET" name="update" id="updateForm">
    		Reservation ID:<input name="resId" type="number" id="resId" readonly><br/>
-   		Username: <input id="name" type="text" name="username"/> <br/>
+   		Full Name: <input id="name" type="text" name="username"/> <br/>
     	Email: <input id="email" type="email" name="email"/> <br/>
     	Phone: <input id="phone" type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/><br/>
     	Arrival Date:<input id="arrival" type="date" name="arrival"/><br/>
