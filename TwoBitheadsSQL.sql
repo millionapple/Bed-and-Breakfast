@@ -10,14 +10,32 @@ CREATE TABLE `reservations` (
   `price` int NOT NULL,
   PRIMARY KEY (`idreservations`)
 );
-
+CREATE TABLE `twobitheadsbnb`.`rooms` (
+  `idrooms` INT NOT NULL,
+  `occupied` VARCHAR(6) NOT NULL,
+  PRIMARY KEY (`idrooms`));
+  
 Insert into reservations( guestname, email, phone, arrival, departure, rooms, price)
 values( 'Garrett','my@email.com', '123-456-7890', '2021-01-05', '2021-01-12', 2, 200);
 
+INSERT INTO `twobitheadsbnb`.`rooms` (`idrooms`, `occupied`) VALUES ('1', 'false');
+INSERT INTO `twobitheadsbnb`.`rooms` (`idrooms`, `occupied`) VALUES ('2', 'false');
+INSERT INTO `twobitheadsbnb`.`rooms` (`idrooms`, `occupied`) VALUES ('3', 'false');
+INSERT INTO `twobitheadsbnb`.`rooms` (`idrooms`, `occupied`) VALUES ('4', 'false');
+INSERT INTO `twobitheadsbnb`.`rooms` (`idrooms`, `occupied`) VALUES ('5', 'false');
+INSERT INTO `twobitheadsbnb`.`rooms` (`idrooms`, `occupied`) VALUES ('6', 'false');
+INSERT INTO `twobitheadsbnb`.`rooms` (`idrooms`, `occupied`) VALUES ('7', 'false');
+INSERT INTO `twobitheadsbnb`.`rooms` (`idrooms`, `occupied`) VALUES ('8', 'false');
+
+
 select * from reservations;
+select * from rooms;
 select guestName from reservations;
 
 ALTER TABLE `twobitheadsbnb`.`reservations` 
 CHANGE COLUMN `idreservations` `idreservations` INT NOT NULL AUTO_INCREMENT;
 alter table `twobitheadsbnb`.`reservations` auto_increment=1;
 ALTER TABLE reservations ADD days int;
+alter table reservations add idrooms int;
+alter table reservations add foreign key (idrooms) references rooms(idrooms);
+  
