@@ -16,6 +16,7 @@ public class Reservation {
 	private int rooms;
 	private double price;
 	private long days;
+	private int roomNum;
 	public String getGuestName() {
 		return guestName;
 	}
@@ -65,5 +66,11 @@ public class Reservation {
 	}
 	public void setDays(long days) {
 		this.days = days;
+	}
+	public int getRoomNum() {
+		return roomNum;
+	}
+	public void setRoomNum(int roomNum) {
+		this.roomNum = roomNum;
 	}
 }

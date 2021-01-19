@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.Reservation;
+import beans.Rooms;
 import dao.ReservationDao;
 
 /**
@@ -61,7 +62,16 @@ public class Reservations extends HttpServlet {
 		r.setPhone(request.getParameter("phone"));
 		r.setArrival(request.getParameter("arrival"));
 		r.setDeparture(request.getParameter("departure"));
-		r.setRooms(Integer.parseInt(request.getParameter("rooms")));
+		List<Rooms> rl = new ArrayList<>();
+		for(int i = 1; i<=8; i++) {
+			if(request.getParameter("room"+i) != null) {
+				System.out.println(request.getParameter("room"+i));
+				Rooms r = new Rooms();
+				r.setRoomId(Integer.parseInt(request.getParameter("room"+i)));
+				rl.add(r);
+			}
+		}
+		r.setRooms(rl.size());
 		try {
 			rd.addReservation(r);
 		} catch (InstantiationException e) {
