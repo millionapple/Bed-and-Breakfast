@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -77,4 +79,29 @@ public class Tests {
 		assertEquals(days, 22);
 	}
 
+	@Test
+	public void testOverlappingDate() {
+		List<Reservation> rl = new ArrayList<>();
+		Reservation r1 = new Reservation();
+		Reservation r2 = new Reservation();
+		Reservation r3 = new Reservation();
+		Reservation r4 = new Reservation();
+		r1.setArrival("2021-01-10");
+		r1.setDeparture("2021-01-18");
+		r2.setArrival("2021-01-08");
+		r2.setDeparture("2021-01-17");
+		rl.add(r1);
+		rl.add(r2);
+		r3.setArrival("2021-01-05");
+		r3.setDeparture("2021-01-09");
+		r4.setArrival("2021-01-21");
+		r4.setDeparture("2021-01-28");
+		for(Reservation r : rl) {
+			if(LocalDate.parse(r.getArrival()).isBefore(LocalDate.parse(r3.getDeparture())) && LocalDate.parse(r.getDeparture()).isAfter(LocalDate.parse(r3.getArrival()))) {
+				System.out.println("They overlap");
+			}else {
+				System.out.println("Does not overlap");
+			}
+		}
+	}
 }
