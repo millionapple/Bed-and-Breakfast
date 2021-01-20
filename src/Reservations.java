@@ -62,6 +62,7 @@ public class Reservations extends HttpServlet {
 		r.setPhone(request.getParameter("phone"));
 		r.setArrival(request.getParameter("arrival"));
 		r.setDeparture(request.getParameter("departure"));
+		int resid = 0;
 		List<Rooms> rl = new ArrayList<>();
 		for(int i = 1; i<=8; i++) {
 			if(request.getParameter("room"+i) != null) {
@@ -73,7 +74,7 @@ public class Reservations extends HttpServlet {
 		}
 		r.setRooms(rl.size());
 		try {
-			rd.addReservation(r);
+			resid = rd.addReservation(r);
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,6 +85,19 @@ public class Reservations extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			rd.addRooms(resid, rl);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		response.sendRedirect("/DynamicTwoBitheads-BnB/MadeReservations.html");
 	}
 

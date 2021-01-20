@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,15 +12,17 @@ import java.util.List;
 import java.util.TimeZone;
 
 import beans.Reservation;
+import beans.Rooms;
 
 public class ReservationDao {
 	//for some reason that I don't know yet it will not connect to the driver
-	public void addReservation(Reservation r) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public int addReservation(Reservation r) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		int resid = 0;
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement("Insert into reservations( guestname, email, phone, arrival, departure, rooms, price, days)\r\n" + 
-					"values(?,?,?,?,?,?,?,?);");
+					"values(?,?,?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, r.getGuestName());
 			stmt.setString(2, r.getEmail());
 			stmt.setString(3, r.getPhone());
@@ -29,6 +32,12 @@ public class ReservationDao {
 			stmt.setDouble(7, r.getPrice());
 			stmt.setInt(8, (int) r.getDays());
 			int rowsUpdated = stmt.executeUpdate();
+			ResultSet res = stmt.getGeneratedKeys();
+			while(res.next()) {
+			System.out.println(res.getString(1));
+			resid = Integer.parseInt(res.getString(1));
+			}
+			System.out.println("Hello "+resid);
 			if (rowsUpdated > 0) {
 				System.out.println("The comment request was successful!");
 				conn.commit();
@@ -39,6 +48,7 @@ public class ReservationDao {
 		}catch (Exception e) {
 			System.out.println(e);
 		}
+		return resid;
 }
 	
 	public List<Reservation> getAllReservations() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
@@ -111,6 +121,29 @@ public class ReservationDao {
 			System.out.println(e);
 		}
 	}
+
+	public void addRooms(int id, List<Rooms> rl) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+			conn.setAutoCommit(false);
+			for(Rooms r :rl) {
+			PreparedStatement stmt = conn.prepareStatement("insert into `twobitheadsbnb`.`reserv_rooms` (`reservid`, `roomid`) \r\n" + 
+					"values (?,?);");
+			stmt.setInt(1, id);
+			stmt.setInt(2, r.getRoomId());
+			int rowsUpdated = stmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("The comment request was successful!");
+				conn.commit();
+			} else {
+				System.out.println("comment was not successful");
+				conn.rollback();
+			}
+			}
+	}catch (Exception e) {
+		System.out.println(e);
+	}
+}
 }
 
 
