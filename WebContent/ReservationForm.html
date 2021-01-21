@@ -8,30 +8,33 @@
 <body>
 <header><button><a href="MadeReservations.html">Made Reservations</a></button></header>
 <h1>Add Reservation</h1>
-	<form name="loginForm" method="post" action="Reservations">
-    Full Name: <input type="text" name="username" required/> <br/>
-    Email: <input type="email" name="email" placeholder="my@email.com"/> <br/>
-    Phone: <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx"/><br/>
-    Arrival Date:<input type="date" name="arrival" required/><br/>
-    Departure Date:<input type="date" name="departure" required/><br/>
-    Rooms:<br/>
-    <input type="checkbox" name="room1" value="1">
-    <label for="room1">1</label>
-    <input type="checkbox" name="room2" value="2">
-    <label for="room2">2</label>
-    <input type="checkbox" name="room3" value="3">
-    <label for="room3">3</label>
-    <input type="checkbox" name="room4" value="4">
-    <label for="room4">4</label><br>
-    <input type="checkbox" name="room5" value="5">
-    <label for="room5">5</label>
-    <input type="checkbox" name="room6" value="6">
-    <label for="room6">6</label>
-    <input type="checkbox" name="room7" value="7">
-    <label for="room7">7</label>
-    <input type="checkbox" name="room8" value="8">
-    <label for="room8">8</label><br>
-    <input type="submit" value="Create Reservation"/>
+	<form name="loginForm" method="post" action="Reservations" class="resForm">
+	<table>
+		<tr><td> Full Name: <input type="text" name="username" required/></td></tr>
+		<tr><td>Email: <input type="email" name="email" placeholder="my@email.com"/>
+		<tr><td>Phone: <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx"/></td></tr>
+		<tr><td>Arrival Date:<input type="date" name="arrival" required/></td></tr>
+		<tr><td>Departure Date:<input type="date" name="departure" required/></td></tr>
+		<tr><td>Rooms:<br/>
+		    <input type="checkbox" name="room1" value="1">
+		    <label for="room1">1</label>
+		    <input type="checkbox" name="room2" value="2">
+		    <label for="room2">2</label>
+		    <input type="checkbox" name="room3" value="3">
+		    <label for="room3">3</label>
+		    <input type="checkbox" name="room4" value="4">
+		    <label for="room4">4</label><br>
+		    <input type="checkbox" name="room5" value="5">
+		    <label for="room5">5</label>
+		    <input type="checkbox" name="room6" value="6">
+		    <label for="room6">6</label>
+		    <input type="checkbox" name="room7" value="7">
+		    <label for="room7">7</label>
+		    <input type="checkbox" name="room8" value="8">
+		    <label for="room8">8</label><br>
+    	</td></tr>
+    	<tr><td><input type="submit" value="Create Reservation" class="button"/></td></tr>
+	</table>
 </form>
 </body>
 </html>

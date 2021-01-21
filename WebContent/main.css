@@ -2,18 +2,18 @@ body{
 	
 }
 
-table{
+#demo table{
 	width: 100%;
 	border-style: solid;
 	border-width: 5px;
 	border-color: black;
 	background-color: black;
 }
-th{
+#demo th{
 	color: blue;
 	text-decoration: underline;
 }
-tr{
+#demo tr{
 	border-style: solid;
 	border-width: 5px;
 	background-color: #f2f2f2;
@@ -26,7 +26,7 @@ form{
 	margin-right: auto;
 	width: 300px;
 }
-input{
+#demo input{
 	margin-bottom:10px;
 }
 /* The Modal (background) */
@@ -67,7 +67,7 @@ input{
   text-decoration: none;
   cursor: pointer;
 }
-tr input{
+#demo tr input{
 	width:100%;
 	height:100%;
 	margin:0px;
@@ -75,13 +75,32 @@ tr input{
 	background-color: #00ff00;
 	font-weight: 900;
 }
-tr button{
+#demo tr button{
 	color:white;
 	width:100%;
 	height:100%;
 	background-color: red;
 	font-weight: 900;
 	margin:0px;
+}
+.resForm{
+	background-color:#000;
+	width: 400px;
+	height: 400px;
+}
+.resForm table{
+	width: 100%;
+	height:100%;
+}
+.resForm td{
+	border: 1px solid #888;
+	background-color: #efefef;
+}
+.resForm .button{
+	height: 100%;
+	width:100%;
+	background-color: #00ff00;
+	font-weight:900;
 }
 button{
 	margin-left:20px;
