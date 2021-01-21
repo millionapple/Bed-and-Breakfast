@@ -3,6 +3,8 @@ package beans;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -17,6 +19,7 @@ public class Reservation {
 	private double price;
 	private long days;
 	private int roomNum;
+	private List<Rooms> rl = new ArrayList<>();
 	public String getGuestName() {
 		return guestName;
 	}
@@ -73,4 +76,37 @@ public class Reservation {
 	public void setRoomNum(int roomNum) {
 		this.roomNum = roomNum;
 	}
+	public List<Rooms> getRl() {
+		return rl;
+	}
+	public void setRl(List<Rooms> rl) {
+		this.rl = rl;
+	}
+
+public boolean checkReserved(Reservation res, List<Reservation> rl) {
+	List<Reservation> overlapReservation = new ArrayList<>();
+	for(Reservation r : rl) {
+		if(LocalDate.parse(r.getArrival()).isBefore(LocalDate.parse(res.getDeparture())) && LocalDate.parse(r.getDeparture()).isAfter(LocalDate.parse(res.getArrival()))) {
+			System.out.println("Does Overlap");
+			overlapReservation.add(r);
+		}else {
+			System.out.println("Does not Overlap");
+		}
+	}
+	System.out.println("now check rooms");
+	for(Reservation r : overlapReservation) {
+		System.out.println("overlap arrival "+r.arrival);
+		for(Rooms resRoom : res.getRl()) {
+			System.out.println("resRoom "+resRoom.getRoomId());
+			for(Rooms room : r.getRl()) {
+				System.out.println("Maded Reservations "+room.getRoomId());
+				System.out.println("To be made "+resRoom.getRoomId());
+				if(resRoom.getRoomId() == room.getRoomId()) {
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
 }

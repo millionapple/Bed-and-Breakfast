@@ -53,15 +53,13 @@ public class ReservationsDelete extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println(request.getParameter("id"));
 		try {
+			rd.deleteRoom(request.getParameter("id"));
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		try {
 			rd.deleteReservation(request.getParameter("id"));
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.Test;
 
 import beans.Reservation;
+import beans.Rooms;
 
 public class Tests {
 	boolean valid = false;
@@ -85,23 +86,27 @@ public class Tests {
 		Reservation r1 = new Reservation();
 		Reservation r2 = new Reservation();
 		Reservation r3 = new Reservation();
-		Reservation r4 = new Reservation();
+		Rooms room1 = new Rooms();
+		Rooms room2 = new Rooms();
+		Rooms room3 = new Rooms();
+		room1.setRoomId(1);
+		room2.setRoomId(2);
+		room3.setRoomId(3);
 		r1.setArrival("2021-01-10");
 		r1.setDeparture("2021-01-18");
+		r1.getRl().add(room1);
+		r1.getRl().add(room2);
 		r2.setArrival("2021-01-08");
 		r2.setDeparture("2021-01-17");
+		r2.getRl().add(room3);
+		r1.getRl().add(room1);
+		r1.getRl().add(room2);
 		rl.add(r1);
 		rl.add(r2);
 		r3.setArrival("2021-01-05");
 		r3.setDeparture("2021-01-09");
-		r4.setArrival("2021-01-21");
-		r4.setDeparture("2021-01-28");
-		for(Reservation r : rl) {
-			if(LocalDate.parse(r.getArrival()).isBefore(LocalDate.parse(r3.getDeparture())) && LocalDate.parse(r.getDeparture()).isAfter(LocalDate.parse(r3.getArrival()))) {
-				System.out.println("They overlap");
-			}else {
-				System.out.println("Does not overlap");
-			}
-		}
+		r3.getRl().add(room3);
+		boolean valid = r3.checkReserved(r3, rl);
+		assertEquals(valid, false);
 	}
 }

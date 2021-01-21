@@ -20,7 +20,7 @@ import dao.ReservationDao;
  */
 @WebServlet("/Reservations")
 public class Reservations extends HttpServlet {
-	Reservation r = new Reservation();
+	Reservation res = new Reservation();
 	ReservationDao rd = new ReservationDao();
     
 	
@@ -32,7 +32,7 @@ public class Reservations extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter(); 
 		ReservationDao rd = new ReservationDao();
-		List<Reservation> rl;
+		List<Reservation> rl = new ArrayList<>();
 		try {
 			rl = rd.getAllReservations();
 			out.println("<table>");
@@ -44,61 +44,58 @@ public class Reservations extends HttpServlet {
 						+ "<td><input type=\"button\" onClick=\"updateForm()\" value=\"Update\" id=\""+r.reservId+"\"/></td></tr>");
 			}
 			out.println("</table>");
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		}
+		try {
+			rd.getReservationRooms(rl);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		r.setGuestName(request.getParameter("username"));
-		r.setEmail(request.getParameter("email"));
-		r.setPhone(request.getParameter("phone"));
-		r.setArrival(request.getParameter("arrival"));
-		r.setDeparture(request.getParameter("departure"));
+		res.setGuestName(request.getParameter("username"));
+		res.setEmail(request.getParameter("email"));
+		res.setPhone(request.getParameter("phone"));
+		res.setArrival(request.getParameter("arrival"));
+		res.setDeparture(request.getParameter("departure"));
 		int resid = 0;
-		List<Rooms> rl = new ArrayList<>();
+		List<Reservation> rl = new ArrayList<>();
 		for(int i = 1; i<=8; i++) {
 			if(request.getParameter("room"+i) != null) {
 				System.out.println(request.getParameter("room"+i));
 				Rooms r = new Rooms();
 				r.setRoomId(Integer.parseInt(request.getParameter("room"+i)));
-				rl.add(r);
+				res.getRl().add(r);
 			}
 		}
-		r.setRooms(rl.size());
+		res.setRooms(res.getRl().size());
 		try {
-			resid = rd.addReservation(r);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			rl = rd.getAllReservations();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
+			e1.printStackTrace();
 		}
 		try {
-			rd.addRooms(resid, rl);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			rd.getReservationRooms(rl);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+		if(res.checkReserved(res, rl)) {
+			try {
+				resid = rd.addReservation(res);
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				rd.addRooms(resid, res.getRl());
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		response.sendRedirect("/DynamicTwoBitheads-BnB/MadeReservations.html");
+		}else {
+			response.sendRedirect("/DynamicTwoBitheads-BnB/ReservationForm.html");
+		}
 	}
 
 }

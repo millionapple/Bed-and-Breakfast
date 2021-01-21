@@ -144,6 +144,45 @@ public class ReservationDao {
 		System.out.println(e);
 	}
 }
+	public void deleteRoom(String resId) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM `twobitheadsbnb`.`reserv_rooms` WHERE (`reservid` = ?);");
+			stmt.setString(1, resId);
+			System.out.println(resId);
+			int rowsUpdated = stmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("The comment request was successful!");
+				conn.commit();
+			} else {
+				System.out.println("comment was not successful");
+				conn.rollback();
+			}
+		}catch(Exception e){
+			System.out.println(e);
+		}
+	}
+	public void getReservationRooms(List<Reservation> rl) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+		List<Rooms> roomList = new ArrayList<>();
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+			for(Reservation res : rl) {
+				PreparedStatement stmt = conn.prepareStatement("select roomid from reserv_rooms where reservid = ?;");
+				stmt.setInt(1, res.reservId);
+				System.out.println(res.reservId);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					Rooms r = new Rooms();
+					r.setRoomId(rs.getInt("roomid"));
+					System.out.println("room id's "+r.getRoomId());
+					roomList.add(r);
+				}
+				res.setRl(roomList);
+			}
+		}catch(Exception e){
+			System.out.println(e);
+		}
+	}
 }
 
 

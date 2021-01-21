@@ -54,4 +54,4 @@ alter table rooms drop column occupied;
 alter table reserv_rooms add foreign key (reservid) references reservations(idreservations);
 alter table reserv_rooms add foreign key (roomid) references rooms(idrooms);
 
-  
+  delete from reserv_rooms where reservid = 11;
