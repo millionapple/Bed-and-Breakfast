@@ -39,10 +39,11 @@ values ('11','4');
 
 select idreservations from reservations
 where guestname='Garrett' and email='' and phone='' and arrival='2021-01-18' and departure = '2021-01-20' and rooms = '1' and price='200';
-select * from reservations;
+select * from reservations where idreservations != ?;
 select * from rooms;
 select * from reserv_rooms;
 select guestName from reservations;
+select roomid from reserv_rooms where reservid = ?;
 
 ALTER TABLE `twobitheadsbnb`.`reservations` 
 CHANGE COLUMN `idreservations` `idreservations` INT NOT NULL AUTO_INCREMENT;

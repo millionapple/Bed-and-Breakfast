@@ -77,6 +77,31 @@ public class ReservationDao {
 		return rl;
 	}
 
+	public List<Reservation> getAllOtherReservations() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+		List<Reservation> rl = new ArrayList<>();
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+			PreparedStatement stmt = conn.prepareStatement("select * from reservations where idreservations != ?;");
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Reservation r = new Reservation();
+				 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				 dateFormat.setTimeZone(TimeZone.getTimeZone("CT"));
+				r.reservId = rs.getInt("idreservations");
+				r.setGuestName(rs.getString("guestname"));
+				r.setEmail(rs.getString("email"));
+				r.setPhone(rs.getString("phone"));
+				r.setArrival(dateFormat.format(rs.getDate("arrival")));
+				r.setDeparture(dateFormat.format(rs.getDate("departure")));
+				r.setRooms(rs.getInt("rooms"));
+				rl.add(r);
+			}
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		
+		return rl;
+	}
 	public void deleteReservation(String resId) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
@@ -182,6 +207,29 @@ public class ReservationDao {
 		}catch(Exception e){
 			System.out.println(e);
 		}
+	}
+
+	public void updateRooms(Reservation r) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+			conn.setAutoCommit(false);
+			for(Rooms room : r.getRl()) {
+			PreparedStatement stmt = conn.prepareStatement("insert into `twobitheadsbnb`.`reserv_rooms` (`reservid`, `roomid`) \r\n" + 
+					"values (?,?);");
+			stmt.setInt(1, r.reservId);
+			stmt.setInt(2, room.getRoomId());
+			int rowsUpdated = stmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("The comment request was successful!");
+				conn.commit();
+			} else {
+				System.out.println("comment was not successful");
+				conn.rollback();
+			}
+			}
+	}catch (Exception e) {
+		System.out.println(e);
+	}
 	}
 }
 

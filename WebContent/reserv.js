@@ -41,7 +41,7 @@ function updateForm(){
 	document.getElementById("phone").setAttribute("value", info[3].innerText);
 	document.getElementById("arrival").setAttribute("value", info[5].innerText);
 	document.getElementById("departure").setAttribute("value", info[6].innerText);
-	document.getElementById("rooms").setAttribute("value", info[7].innerText);
+//	document.getElementById("rooms").setAttribute("value", info[7].innerText);
 	 modal.style.display = "block";
 	 
 }
