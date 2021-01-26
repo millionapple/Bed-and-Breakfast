@@ -88,7 +88,9 @@ public boolean checkReserved(Reservation res, List<Reservation> rl) {
 	for(Reservation r : rl) {
 		if(LocalDate.parse(r.getArrival()).isBefore(LocalDate.parse(res.getDeparture())) && LocalDate.parse(r.getDeparture()).isAfter(LocalDate.parse(res.getArrival()))) {
 			System.out.println("Does Overlap");
+			System.out.println("Reservations room size "+r.getRl().size());
 			overlapReservation.add(r);
+			System.out.println("Size of OverlapReservation "+overlapReservation.size());
 		}else {
 			System.out.println("Does not Overlap");
 		}
@@ -98,6 +100,7 @@ public boolean checkReserved(Reservation res, List<Reservation> rl) {
 		System.out.println("overlap arrival "+r.arrival);
 		for(Rooms resRoom : res.getRl()) {
 			System.out.println("resRoom "+resRoom.getRoomId());
+			System.out.println("Overlap Room size "+r.getRl().size());
 			for(Rooms room : r.getRl()) {
 				System.out.println("Maded Reservations "+room.getRoomId());
 				System.out.println("To be made "+resRoom.getRoomId());

@@ -20,9 +20,6 @@ import dao.ReservationDao;
  */
 @WebServlet("/Reservations")
 public class Reservations extends HttpServlet {
-	Reservation res = new Reservation();
-	ReservationDao rd = new ReservationDao();
-    
 	
 	private static final long serialVersionUID = 1L;
     public Reservations() {
@@ -55,6 +52,8 @@ public class Reservations extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ReservationDao rd = new ReservationDao();
+		Reservation res = new Reservation();
 		res.setGuestName(request.getParameter("username"));
 		res.setEmail(request.getParameter("email"));
 		res.setPhone(request.getParameter("phone"));
@@ -64,7 +63,7 @@ public class Reservations extends HttpServlet {
 		List<Reservation> rl = new ArrayList<>();
 		for(int i = 1; i<=8; i++) {
 			if(request.getParameter("room"+i) != null) {
-				System.out.println(request.getParameter("room"+i));
+				System.out.println("Room id: "+request.getParameter("room"+i));
 				Rooms r = new Rooms();
 				r.setRoomId(Integer.parseInt(request.getParameter("room"+i)));
 				res.getRl().add(r);

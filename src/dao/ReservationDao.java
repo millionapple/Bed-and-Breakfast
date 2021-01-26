@@ -187,14 +187,15 @@ public class ReservationDao {
 			System.out.println(e);
 		}
 	}
+	//I Think I found the Problem it is putting all of the Rooms in all reservations
 	public void getReservationRooms(List<Reservation> rl) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
-		List<Rooms> roomList = new ArrayList<>();
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			for(Reservation res : rl) {
+				List<Rooms> roomList = new ArrayList<>();
 				PreparedStatement stmt = conn.prepareStatement("select roomid from reserv_rooms where reservid = ?;");
 				stmt.setInt(1, res.reservId);
-				System.out.println(res.reservId);
+				System.out.println("Reservation Id for the rooms: "+res.reservId);
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
 					Rooms r = new Rooms();
@@ -202,6 +203,7 @@ public class ReservationDao {
 					System.out.println("room id's "+r.getRoomId());
 					roomList.add(r);
 				}
+				System.out.println("Size of each roomList: "+roomList.size());
 				res.setRl(roomList);
 			}
 		}catch(Exception e){
