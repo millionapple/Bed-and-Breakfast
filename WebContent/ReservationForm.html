@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="main.css" >
 <script src="reserv.js"></script>
 </head>
-<body onload="setDate()">
+<body onload="minArrival()">
 <header><button><a href="MadeReservations.html">Made Reservations</a></button></header>
 <h1>Add Reservation</h1>
 	<form name="loginForm" method="post" action="Reservations" class="resForm">
@@ -14,8 +14,8 @@
 		<tr><td> Full Name: <input type="text" name="username" required/></td></tr>
 		<tr><td>Email: <input type="email" name="email" placeholder="my@email.com"/>
 		<tr><td>Phone: <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx"/></td></tr>
-		<tr><td>Arrival Date:<input type="date" name="arrival" id="arrival" required/></td></tr>
-		<tr><td>Departure Date:<input type="date" name="departure" required/></td></tr>
+		<tr><td>Arrival Date:<input type="date" name="arrival" id="arrival" onchange="minDeparture()" required/></td></tr>
+		<tr><td>Departure Date:<input type="date" name="departure" id="departure" required/></td></tr>
 		<tr><td>Rooms:<br/>
 		    <input type="checkbox" name="room1" value="1">
 		    <label for="room1">1</label>

@@ -51,8 +51,10 @@ function closeModal(){
 	 modal.style.display = "none";
 }
 
-function setDate(){
+function minArrival(){
 	arrival.min = new Date().toISOString().split("T")[0];
-	console.log(d);
+}
+function minDeparture(){
+	departure.min = arrival.value;
 }
 
