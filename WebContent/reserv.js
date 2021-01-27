@@ -51,3 +51,8 @@ function closeModal(){
 	 modal.style.display = "none";
 }
 
+function setDate(){
+	arrival.min = new Date().toISOString().split("T")[0];
+	console.log(d);
+}
+
