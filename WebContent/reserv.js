@@ -56,5 +56,12 @@ function minArrival(){
 }
 function minDeparture(){
 	departure.min = arrival.value;
+	validRooms();
 }
+function validRooms(){
+	console.log("hello");
+	var i = 1;
+	document.getElementById("room"+i).disabled = true;
+}
+
 
