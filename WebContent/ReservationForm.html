@@ -15,7 +15,7 @@
 		<tr><td>Email: <input type="email" name="email" placeholder="my@email.com"/>
 		<tr><td>Phone: <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx"/></td></tr>
 		<tr><td>Arrival Date:<input type="date" name="arrival" id="arrival" onchange="minDeparture()" required/></td></tr>
-		<tr><td>Departure Date:<input type="date" name="departure" id="departure" required/></td></tr>
+		<tr><td>Departure Date:<input type="date" name="departure" id="departure" onchange="validRooms()"required/></td></tr>
 		<tr><td>Rooms:<br/>
 		    <input type="checkbox" name="room1" id="room1" value="1">
 		    <label for="room1">1</label>

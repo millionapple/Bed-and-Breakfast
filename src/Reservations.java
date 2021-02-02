@@ -94,10 +94,6 @@ public class Reservations extends HttpServlet {
 		response.sendRedirect("/DynamicTwoBitheads-BnB/MadeReservations.html");
 		}else {
 			response.sendRedirect("/DynamicTwoBitheads-BnB/ReservationForm.html");
-			System.out.println("room not aviable");
-			response.setContentType("text/html");
-			response.getWriter().println("Some or all the Rooms are occupied");
-			response.addHeader("text", "Some or all the Rooms are occupied");
 		}
 	}
 

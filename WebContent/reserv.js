@@ -59,9 +59,23 @@ function minDeparture(){
 	validRooms();
 }
 function validRooms(){
-	console.log("hello");
-	var i = 1;
-	document.getElementById("room"+i).disabled = true;
+	var arrival = document.getElementById("arrival");
+	var departure = document.getElementById("departure");
+	console.log(arrival.value);
+	console.log(departure.value);
+	if(arrival.value && departure.value){
+		var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		      console.log("success");
+		    }
+		  };
+		  xhttp.open("GET", "Reservations", true);
+		  xhttp.send();
+		var i = 1;
+		document.getElementById("room"+i).disabled = true;
+	}
+	
 }
 
 
