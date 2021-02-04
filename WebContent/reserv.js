@@ -64,18 +64,22 @@ function validRooms(){
 	console.log(arrival.value);
 	console.log(departure.value);
 	if(arrival.value && departure.value){
-		var xhttp = new XMLHttpRequest();
-		  xhttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-		      console.log("success");
-		    }
-		  };
-		  xhttp.open("GET", "Reservations", true);
-		  xhttp.send();
+		console.log("Getting all Reservations");
+		    let xhttp = new XMLHttpRequest();
+		    xhttp.onreadystatechange = parseReservations;
+		    xhttp.open('GET', 'Reservations');
+		    xhttp.send();
+		    
+		    function parseReservations(){
+				 if (xhttp.readyState === 4 && xhttp.status === 200) {
+			         let reqs = this.responseText;
+//			         reqs = JSON.parse(reqs);
+			         console.log(reqs);
+				 }
+			}
+		    
 		var i = 1;
 		document.getElementById("room"+i).disabled = true;
-	}
-	
+	};
 }
-
 
