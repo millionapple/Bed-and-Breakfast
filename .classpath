@@ -20,11 +20,8 @@
 	<classpathentry kind="lib" path="C:/Users/garre/.m2/repository/com/oracle/ojdbc/ojdbc8/19.3.0.0/ojdbc8-19.3.0.0-sources.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-8.0.17.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-8.0.17-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/garre/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/garre/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/garre/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.3/jackson-core-2.10.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/garre/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.3/jackson-core-2.10.3-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/garre/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.10.3/jackson-annotations-2.10.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/garre/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.10.3/jackson-annotations-2.10.3-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/garre/Documents/JacksonJars/jackson-core-2.12.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/garre/Documents/JacksonJars/jackson-databind-2.12.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/garre/Documents/JacksonJars/jackson-annotations-2.12.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

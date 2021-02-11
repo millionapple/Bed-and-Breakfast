@@ -8,7 +8,7 @@ import java.util.List;
 
 
 
-public class Reservation {
+public class Reservation implements java.io.Serializable{
 	public int reservId = 0;
 	private String guestName;
 	private String email;
@@ -112,4 +112,28 @@ public boolean checkReserved(Reservation res, List<Reservation> rl) {
 	}
 	return true;
 }
+
+public String createJSON() {
+	String roomIds ="[";
+	for(int i = 0; i< rl.size(); i++) {
+		roomIds+="\"";
+		roomIds+=rl.get(i).getRoomId();
+		if(i<rl.size()-1) {
+		roomIds+="\" , ";
+		}else {
+			roomIds+="\"";
+		}
+	}
+	roomIds+="]";
+	String str ="{\"reservId\" : \""+reservId+"\","
+			+ "\"guestName\" : \""+guestName+"\","
+			+ "\"email\" : \""+email+"\","
+			+ "\"arrival\" : \""+arrival+"\","
+			+ "\"departure\" : \""+departure+"\","
+			+ "\"roomIds\" : "+roomIds+","
+			+ "\"rooms\" : \""+rooms+"\","
+			+ "\"days\" : \""+days+"\"}";
+	return str;
+}
+
 }

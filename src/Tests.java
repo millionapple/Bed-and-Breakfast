@@ -109,4 +109,9 @@ public class Tests {
 		boolean valid = r3.checkReserved(r3, rl);
 		assertEquals(valid, false);
 	}
+	
+	@Test
+	public void testJSON() {
+		
+	}
 }

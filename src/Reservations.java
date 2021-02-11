@@ -1,8 +1,11 @@
 
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +33,6 @@ public class Reservations extends HttpServlet {
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		response.setContentType("text/html");
-//		ObjectMapper om = new ObjectMapper();
 		PrintWriter out = response.getWriter(); 
 		ReservationDao rd = new ReservationDao();
 		List<Reservation> rl = new ArrayList<>();
@@ -45,17 +47,20 @@ public class Reservations extends HttpServlet {
 //						+ "<td><input type=\"button\" onClick=\"updateForm()\" value=\"Update\" id=\""+r.reservId+"\"/></td></tr>");
 //			}
 //			out.println("</table>");
-			String listString = rl.stream().map(Object::toString)
-            .collect(Collectors.joining(", "));
-			out.println(listString);
-			out.flush();
-		    response.flushBuffer();
-		    out.close();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		try {
 			rd.getReservationRooms(rl);
+			String stringList ="{\"reservation\" : [";
+			for(int i=0; i<rl.size(); i++) {
+				stringList += rl.get(i).createJSON();
+				if(i<rl.size()-1) {
+					stringList +=", ";
+				}
+			}
+			stringList +="]}";
+			out.write(stringList);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
