@@ -128,11 +128,13 @@ public String createJSON() {
 	String str ="{\"reservId\" : \""+reservId+"\","
 			+ "\"guestName\" : \""+guestName+"\","
 			+ "\"email\" : \""+email+"\","
+			+ "\"phone\" : \""+phone+"\","
 			+ "\"arrival\" : \""+arrival+"\","
 			+ "\"departure\" : \""+departure+"\","
 			+ "\"roomIds\" : "+roomIds+","
 			+ "\"rooms\" : \""+rooms+"\","
-			+ "\"days\" : \""+days+"\"}";
+			+ "\"days\" : \""+getDays()+"\","
+			+ "\"price\" : \""+getPrice()+"\"}";
 	return str;
 }
 

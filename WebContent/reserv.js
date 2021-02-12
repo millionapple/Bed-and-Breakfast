@@ -2,14 +2,28 @@ function getReservations() {
 		  var xhttp = new XMLHttpRequest();
 		  xhttp.onreadystatechange = function() {
 		    if (this.readyState == 4 && this.status == 200) {
-		      document.getElementById("demo").innerHTML = this.responseText;
+		    	let reqs = this.responseText;
+		         reqs = JSON.parse(reqs);
+		         var str = "";
+			     var res = reqs.reservation;
+		         for(i in res){
+		        	 str += "<tr id='"+res[i].reservId+"'><td>"+res[i].reservId+"</td><td>"+res[i].guestName+"</td><td>"+res[i].email+"</td><td>"+res[i].phone+"</td>" +
+		        	 		"<td>"+res[i].arrival+"</td><td>"+res[i].departure+"</td><td>"+res[i].rooms+"</td><td>"+res[i].days+"</td><td>"+res[i].price+"</td>" +
+		        	 		"<td><button onclick=\"deleteReservation()\" id=\""+res[i].reservId+"\">Delete</button></td>" +
+		        	 		"<td><input type=\"button\" onClick=\"updateForm()\" value=\"Update\" id=\""+res[i].reservId+"\"/></td></tr>"
+		         }
+		         document.getElementById("demo").innerHTML = "<table>" +
+		      		"<tr><th>Reservation id</th><th>Guest Name</th><th>Email</th><th>Phone</th><th>Arrival</th><th>Departure</th>" +
+		      		"<th>Rooms</th><th>Days</th><th>Price</th><th>Delete</th><th>Update</th></tr>" +
+		      		str+
+		      		"</table>";
+		      console.log(reqs);
 		    }
 		  };
 		  xhttp.open("GET", "Reservations", true);
 		  xhttp.send();
 		}
 function deleteReservation(){
-	console.log("hello");
 	let btn = event.target;
 	let id = btn.id;
 	console.log(id);
