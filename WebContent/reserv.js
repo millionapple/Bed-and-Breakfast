@@ -75,25 +75,31 @@ function minDeparture(){
 function validRooms(){
 	var arrival = document.getElementById("arrival");
 	var departure = document.getElementById("departure");
-	console.log(arrival.value);
-	console.log(departure.value);
 	if(arrival.value && departure.value){
 		console.log("Getting all Reservations");
 		    let xhttp = new XMLHttpRequest();
 		    xhttp.onreadystatechange = parseReservations;
 		    xhttp.open('GET', 'Reservations');
 		    xhttp.send();
-		    
 		    function parseReservations(){
 				 if (xhttp.readyState === 4 && xhttp.status === 200) {
 			         let reqs = this.responseText;
 			         reqs = JSON.parse(reqs);
-			         console.log(reqs);
+			         var res = reqs.reservation;
+			         for(var i = 1; i < 8; i++){
+				 			document.getElementById("room"+i).disabled = false;
+				 		}
+			         for(i in res){
+			        	 if(res[i].arrival < departure.value && res[i].departure > arrival.value){
+			        		 for(r in res[i].roomIds){
+				        		 document.getElementById("room"+res[i].roomIds[r]).disabled = true;
+			        		 }
+			        	 }
+			         }
+			         
 				 }
 			}
 		    
-		var i = 1;
-		document.getElementById("room"+i).disabled = true;
 	};
 }
 
