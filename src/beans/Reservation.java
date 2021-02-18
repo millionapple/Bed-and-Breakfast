@@ -64,7 +64,7 @@ public class Reservation implements java.io.Serializable{
 	public long getDays() {
 		LocalDate start = LocalDate.parse(arrival);
 		LocalDate end = LocalDate.parse(departure);
-		long days = Period.between(start, end).getDays();
+		long days = Period.between(start, end).getDays()+1;
 		return days;
 	}
 	public void setDays(long days) {
