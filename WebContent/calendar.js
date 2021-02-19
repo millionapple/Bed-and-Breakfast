@@ -52,8 +52,18 @@ function showCalendar(month, year) {
         for (let j = 0; j < 7; j++) {
             if (i === 0 && j < firstDay) {
                 cell = document.createElement("td");
+//                list = document.createElement("ul");
+//                list.className = "grid-container";
+//                for(let l = 1; l<=8; l++){
+//                	listElement = document.createElement("LI");
+//                	listElement.className = "grid-item";
+//                	room = document.createTextNode(l);
+//                	listElement.appendChild(room);
+//                	list.appendChild(listElement);
+//                }
                 cellText = document.createTextNode("");
                 cell.appendChild(cellText);
+//                cell.appendChild(list);
                 row.appendChild(cell);
             }
             else if (date > daysInMonth(month, year)) {
@@ -66,7 +76,17 @@ function showCalendar(month, year) {
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                     cell.classList.add("bg-info");
                 } // color today's date
+                list = document.createElement("ul");
+                list.className = "grid-container";
+                for(let l = 1; l<=8; l++){
+                	listElement = document.createElement("LI");
+                	listElement.className = "grid-item";
+                	room = document.createTextNode(l);
+                	listElement.appendChild(room);
+                	list.appendChild(listElement);
+                }
                 cell.appendChild(cellText);
+                cell.appendChild(list);
                 row.appendChild(cell);
                 date++;
             }

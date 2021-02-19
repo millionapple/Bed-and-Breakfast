@@ -112,3 +112,15 @@ a{
 header{
 	text-align: center;
 }
+.grid-container {
+  list-style-type:none;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 1px;
+}
+.grid-item {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 1px;
+  font-size: 10px;
+  text-align: center;
+}
