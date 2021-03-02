@@ -29,7 +29,6 @@ function jump() {
 }
 
 function showCalendar(month, year) {
-	getReservations();
     let firstDay = (new Date(year, month)).getDay();
 
     tbl = document.getElementById("calendar-body"); // body of the calendar
@@ -41,29 +40,20 @@ function showCalendar(month, year) {
     monthAndYear.innerHTML = months[month] + " " + year;
     selectYear.value = year;
     selectMonth.value = month;
-
     // creating all cells
     let date = 1;
+    let day = 0;
     for (let i = 0; i < 6; i++) {
         // creates a table row
         let row = document.createElement("tr");
+        row.id = "row-"+i;
 
         //creating individual cells, filing them up with data.
         for (let j = 0; j < 7; j++) {
             if (i === 0 && j < firstDay) {
                 cell = document.createElement("td");
-//                list = document.createElement("ul");
-//                list.className = "grid-container";
-//                for(let l = 1; l<=8; l++){
-//                	listElement = document.createElement("LI");
-//                	listElement.className = "grid-item";
-//                	room = document.createTextNode(l);
-//                	listElement.appendChild(room);
-//                	list.appendChild(listElement);
-//                }
                 cellText = document.createTextNode("");
                 cell.appendChild(cellText);
-//                cell.appendChild(list);
                 row.appendChild(cell);
             }
             else if (date > daysInMonth(month, year)) {
@@ -71,16 +61,20 @@ function showCalendar(month, year) {
             }
 
             else {
+            	day +=1;
                 cell = document.createElement("td");
+                cell.id = "cell-"+day;
                 cellText = document.createTextNode(date);
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                     cell.classList.add("bg-info");
                 } // color today's date
+                //create room list
                 list = document.createElement("ul");
                 list.className = "grid-container";
                 for(let l = 1; l<=8; l++){
                 	listElement = document.createElement("LI");
                 	listElement.className = "grid-item";
+                	listElement.id = "grid-"+l;
                 	room = document.createTextNode(l);
                 	listElement.appendChild(room);
                 	list.appendChild(listElement);
@@ -93,10 +87,9 @@ function showCalendar(month, year) {
 
 
         }
-
         tbl.appendChild(row); // appending each row into calendar body.
     }
-
+    getReservations();
 }
 
 
@@ -115,7 +108,49 @@ function getReservations(){
 	         let reqs = this.responseText;
 	         reqs = JSON.parse(reqs);
 	         var res = reqs.reservation;
-	         console.log(res);
+	         for(i in res){
+	         arrival = getday(res[i].arrival);
+	         aMonth = getMonth(res[i].arrival);
+	         departure = getday(res[i].departure);
+	         dMonth = getMonth(res[i].departure);
+		         if(parseInt(selectMonth.value)+1 == aMonth){
+				         for(l = arrival; l <= departure; l++){
+				        	 var day = document.getElementById("cell-"+l);
+					         for(j in res[i].roomIds){
+					        	 if(res[i].roomIds.children === null){}
+					        	 else{day.children[0].children[res[i].roomIds[j]-1].style.backgroundColor = "red";}
+					         }
+				         }
+		         } 
+		         //if the reservation goes into the next month
+		         if(parseInt(selectMonth.value)+1 == dMonth && parseInt(selectMonth.value)+1 != aMonth){
+	        		 for(l = 1; l <= departure; l++){
+	        			 var day = document.getElementById("cell-"+l);
+	        			 for(j in res[i].roomIds){
+	        				 if(res[i].roomIds.children === null){}
+	        				 else{day.children[0].children[res[i].roomIds[j]-1].style.backgroundColor = "red";
+	        				 	console.log("cell-"+l);
+	        				 }
+	        			 }
+	        		 }
+	        	 }
+	         }
 		 }
     }
+}
+
+function getday(date){
+	day = date.substr(8);
+	if(day.charAt(0) ==='0'){
+		day = day.replace("0", "");
+	}
+	return day;
+}
+
+function getMonth(date){
+	month = date.substring(5, 7);
+	if(month.charAt(0) === '0' ){
+		month = month.replace("0", "");
+	}
+	return month;
 }

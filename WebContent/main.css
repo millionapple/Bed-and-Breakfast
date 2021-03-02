@@ -112,6 +112,7 @@ a{
 header{
 	text-align: center;
 }
+/*Calendar*/
 .grid-container {
   list-style-type:none;
   display: grid;
@@ -123,4 +124,7 @@ header{
   padding: 1px;
   font-size: 10px;
   text-align: center;
+}
+#calendar-body .grid-item{
+	background-color: limegreen;
 }
