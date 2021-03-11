@@ -82,7 +82,7 @@ public class Reservation implements java.io.Serializable{
 	public void setRl(List<Rooms> rl) {
 		this.rl = rl;
 	}
-
+//need to make a new function this is redundant
 public boolean checkReserved(Reservation res, List<Reservation> rl) {
 	List<Reservation> overlapReservation = new ArrayList<>();
 	for(Reservation r : rl) {

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
@@ -48,8 +49,6 @@ public class ReservationTest {
 		r2.setArrival("2021-01-08");
 		r2.setDeparture("2021-01-17");
 		r2.getRl().add(room3);
-		r1.getRl().add(room1);
-		r1.getRl().add(room2);
 		rl.add(r1);
 		rl.add(r2);
 		r3.setArrival("2021-01-05");
@@ -58,4 +57,76 @@ public class ReservationTest {
 		boolean valid = r3.checkReserved(r3, rl);
 		assertEquals(valid, false);
 	}
+
+	@Test
+	public void testNoConflictReserv() {
+		// arrange
+		String arrival = "2021-03-01";
+		String departure = "2021-03-04";
+		HashMap<Integer, Boolean> expected = new HashMap<Integer, Boolean>();
+		expected.put(1, true);
+		expected.put(2, true);
+		expected.put(3, true);
+		expected.put(4, true);
+		expected.put(5, true);
+		expected.put(6, true);
+		expected.put(7, true);
+		expected.put(8, true);
+		
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+
+		// act
+		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		
+		// assert
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testSingleConflictReserv() {
+		// arrange
+		String arrival = "2021-03-01";
+		String departure = "2021-03-04";
+		HashMap<Integer, Boolean> expected = new HashMap<Integer, Boolean>();
+		for(int i = 1; i <= 8; i++) {
+			expected.put(i, true);
+		}
+		expected.put(3, false);
+		
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		Reservation r1 = new Reservation();
+		r1.setArrival(arrival);
+		r1.setDeparture(departure);
+		Rooms room3 = new Rooms();
+		room3.setRoomId(3);
+		r1.getRl().add(room3);
+		reservations.add(r1);
+
+		// act
+		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		
+		// assert
+		assertEquals(expected, actual);
+	}
+
+	private HashMap<Integer, Boolean> checkAvailability(String arrival, String departure, ArrayList<Reservation> reservations) {
+		HashMap<Integer, Boolean> availability = new HashMap<>();
+		
+		
+		for(int i = 1; i <= 8; i++) {
+			availability.put(i, true);
+			if(reservations.size() > 0) {
+				Reservation reservation = reservations.get(0);
+				if(LocalDate.parse(reservation.getArrival()).isBefore(LocalDate.parse(departure)) 
+						&& LocalDate.parse(reservation.getDeparture()).isAfter(LocalDate.parse(arrival))) {
+					if(i == reservation.getRl().get(0).getRoomId()) {
+						availability.put(i, false);
+					}
+				}
+			}
+		}
+		return availability;
+	}
+	
+	
 }

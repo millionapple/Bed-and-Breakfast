@@ -73,6 +73,8 @@ function minDeparture(){
 	departure.min = arrival.value;
 	validRooms();
 }
+
+// this one could probably be move to java and just return a list of true or false
 function validRooms(){
 	var arrival = document.getElementById("arrival");
 	var departure = document.getElementById("departure");
