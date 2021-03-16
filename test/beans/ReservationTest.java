@@ -109,6 +109,48 @@ public class ReservationTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void testNoOverlappingDate() {
+		//the dates of the reservation should be different meaning that the values should be true
+		// arrange
+				String arrival = "2021-03-01";
+				String departure = "2021-03-04";
+				HashMap<Integer, Boolean> expected = new HashMap<Integer, Boolean>();
+				for(int i = 1; i <= 8; i++) {
+					expected.put(i, true);
+				}
+				
+				ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+				Reservation r1 = new Reservation();
+				r1.setArrival("2021-04-01");
+				r1.setDeparture("2021-04-04");
+				Rooms room3 = new Rooms();
+				room3.setRoomId(3);
+				r1.getRl().add(room3);
+				reservations.add(r1);
+
+				// act
+				HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+				
+				// assert
+				assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testMultipleConflicts() {
+		//very close to testSingleConflictReserv but with multiple false instead of one
+	}
+	
+	@Test
+	public void testAgainstMultipleReservations() {
+		//have more that one reservation in the reservation list
+	}
+	
+	@Test
+	public void testMulipleReservationsWithDifferentRooms() {
+		//have more than one reservation each with more that one room of different ids
+	}
+	
 	private HashMap<Integer, Boolean> checkAvailability(String arrival, String departure, ArrayList<Reservation> reservations) {
 		HashMap<Integer, Boolean> availability = new HashMap<>();
 		
