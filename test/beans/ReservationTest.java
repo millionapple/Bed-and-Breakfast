@@ -139,6 +139,33 @@ public class ReservationTest {
 	@Test
 	public void testMultipleConflicts() {
 		//very close to testSingleConflictReserv but with multiple false instead of one
+		// arrange
+		String arrival = "2021-03-01";
+		String departure = "2021-03-04";
+		HashMap<Integer, Boolean> expected = new HashMap<Integer, Boolean>();
+		for(int i = 1; i <= 8; i++) {
+			expected.put(i, true);
+		}
+			expected.put(3, false);
+			expected.put(5, false);
+		
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		Reservation r1 = new Reservation();
+		r1.setArrival(arrival);
+		r1.setDeparture(departure);
+		Rooms room3 = new Rooms();
+		Rooms room5 = new Rooms();
+		room3.setRoomId(3);
+		room5.setRoomId(5);
+		r1.getRl().add(room3);
+		r1.getRl().add(room5);
+		reservations.add(r1);
+
+		// act
+		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		
+		// assert
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -154,15 +181,16 @@ public class ReservationTest {
 	private HashMap<Integer, Boolean> checkAvailability(String arrival, String departure, ArrayList<Reservation> reservations) {
 		HashMap<Integer, Boolean> availability = new HashMap<>();
 		
-		
 		for(int i = 1; i <= 8; i++) {
 			availability.put(i, true);
 			if(reservations.size() > 0) {
 				Reservation reservation = reservations.get(0);
 				if(LocalDate.parse(reservation.getArrival()).isBefore(LocalDate.parse(departure)) 
 						&& LocalDate.parse(reservation.getDeparture()).isAfter(LocalDate.parse(arrival))) {
-					if(i == reservation.getRl().get(0).getRoomId()) {
-						availability.put(i, false);
+					for(int room = 0; room < reservation.getRl().size(); room++) {
+						if(i == reservation.getRl().get(room).getRoomId()) {
+							availability.put(i, false);
+						}
 					}
 				}
 			}
