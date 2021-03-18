@@ -4,12 +4,15 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class ReservationTest {
 	private static final String arrival = "2021-03-01";
@@ -165,7 +168,7 @@ public class ReservationTest {
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 		
 		Reservation r1 = new Reservation();
-		r1.setArrival("2021-02-28");
+		r1.setArrival("2021-02-01");
 		r1.setDeparture("2021-03-02");
 		Rooms room3 = new Rooms();
 		room3.setRoomId(3);
@@ -185,15 +188,33 @@ public class ReservationTest {
 		//assert
 		assertEquals(expected, actual);
 	}
+
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 	
 	@Test
-	public void testMonthOverlap() {
-		
+	public void testInvalidArgs() {
+		//so trying to make the date invalid will not cause the function to through an exception due to how it is setup it will see
+		//no matching date and thus all rooms are available. Added only one date to the reservation that matched and then an invalid
+		//one.
+		exception.expect(IllegalArgumentException.class);
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+        
+		checkAvailability("1982-24-01", "20", reservations);
 	}
-
+	
 	private HashMap<Integer, Boolean> checkAvailability(String arrival, String departure,
 			ArrayList<Reservation> reservations) {
 		HashMap<Integer, Boolean> availability = new HashMap<>();
+		try {
+			LocalDate.parse(arrival);
+			LocalDate.parse(departure);
+		}catch(DateTimeParseException e) {
+			System.out.println(e);
+			IllegalArgumentException args = new IllegalArgumentException();
+			throw args;
+		}
 		for (int i = 1; i <= 8; i++) {
 			availability.put(i, true);
 			for (Reservation reserv : reservations) {
