@@ -1,13 +1,15 @@
+package Servlets;
 
 
-import java.io.FileOutputStream;
+
+
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Reservation;
 import beans.Rooms;
@@ -68,7 +69,6 @@ public class Reservations extends HttpServlet {
 		List<Reservation> rl = new ArrayList<>();
 		for(int i = 1; i<=8; i++) {
 			if(request.getParameter("room"+i) != null) {
-				System.out.println("Room id: "+request.getParameter("room"+i));
 				Rooms r = new Rooms();
 				r.setRoomId(Integer.parseInt(request.getParameter("room"+i)));
 				res.getRl().add(r);
@@ -85,7 +85,6 @@ public class Reservations extends HttpServlet {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		if(res.checkReserved(res, rl)) {
 			try {
 				resid = rd.addReservation(res);
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
@@ -97,9 +96,6 @@ public class Reservations extends HttpServlet {
 				e.printStackTrace();
 			}
 		response.sendRedirect("/DynamicTwoBitheads-BnB/MadeReservations.html");
-		}else {
-			response.sendRedirect("/DynamicTwoBitheads-BnB/ReservationForm.html");
-		}
 	}
 
 }

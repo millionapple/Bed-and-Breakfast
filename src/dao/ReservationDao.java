@@ -34,10 +34,8 @@ public class ReservationDao {
 			int rowsUpdated = stmt.executeUpdate();
 			ResultSet res = stmt.getGeneratedKeys();
 			while(res.next()) {
-			System.out.println(res.getString(1));
 			resid = Integer.parseInt(res.getString(1));
 			}
-			System.out.println("Hello "+resid);
 			if (rowsUpdated > 0) {
 				System.out.println("The comment request was successful!");
 				conn.commit();
@@ -51,8 +49,8 @@ public class ReservationDao {
 		return resid;
 }
 	
-	public List<Reservation> getAllReservations() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
-		List<Reservation> rl = new ArrayList<>();
+	public ArrayList<Reservation> getAllReservations() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+		ArrayList<Reservation> rl = new ArrayList<>();
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			PreparedStatement stmt = conn.prepareStatement("select * from reservations");
@@ -195,15 +193,12 @@ public class ReservationDao {
 				List<Rooms> roomList = new ArrayList<>();
 				PreparedStatement stmt = conn.prepareStatement("select roomid from reserv_rooms where reservid = ?;");
 				stmt.setInt(1, res.reservId);
-				System.out.println("Reservation Id for the rooms: "+res.reservId);
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
 					Rooms r = new Rooms();
 					r.setRoomId(rs.getInt("roomid"));
-					System.out.println("room id's "+r.getRoomId());
 					roomList.add(r);
 				}
-				System.out.println("Size of each roomList: "+roomList.size());
 				res.setRl(roomList);
 			}
 		}catch(Exception e){
