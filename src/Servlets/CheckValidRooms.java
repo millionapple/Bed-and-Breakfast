@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import beans.Reservation;
 import beans.Rooms;
 import dao.ReservationDao;
@@ -40,9 +41,22 @@ public class CheckValidRooms extends HttpServlet {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		try {
+			rd.getReservationRooms(rl);
+		} catch(InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		availableRooms = checkAvailability(arrival, departure, rl);
-		
-		response.getWriter().append(availableRooms.toString());
+		String isRoomJson = "{ \"isAvailable\": [";
+		for(int i = 1; i <= availableRooms.size(); i++) {
+			if(i != 8) {
+			isRoomJson += "{\""+i+"\": \""+availableRooms.get(i)+"\"},";
+			}else {
+				isRoomJson += "{\""+i+"\": \""+availableRooms.get(i)+"\"}]}";
+			}
+		}
+		System.out.println(isRoomJson);
+		response.getWriter().write(isRoomJson);
 	}
 	
 	private HashMap<Integer, Boolean> checkAvailability(String arrival, String departure,

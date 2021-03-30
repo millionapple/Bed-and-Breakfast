@@ -88,7 +88,14 @@ function validRooms(){
 		    function parseReservations(){
 				 if (xhttp.readyState === 4 && xhttp.status === 200) {
 			         let reqs = this.responseText;
+			         reqs = JSON.parse(reqs);
 			         console.log(reqs);
+			         var available = reqs.isAvailable;
+			         for(var i = 1; i<= 8; i++){
+			        	 if(available[i-1][i] == "false"){
+			        		 document.getElementById("room"+i).disabled = true;
+			        	 }
+			         }
 				 }
 			}
 		    
