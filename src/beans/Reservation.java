@@ -8,7 +8,7 @@ import java.util.List;
 
 
 
-public class Reservation {
+public class Reservation implements java.io.Serializable{
 	public int reservId = 0;
 	private String guestName;
 	private String email;
@@ -64,7 +64,7 @@ public class Reservation {
 	public long getDays() {
 		LocalDate start = LocalDate.parse(arrival);
 		LocalDate end = LocalDate.parse(departure);
-		long days = Period.between(start, end).getDays();
+		long days = Period.between(start, end).getDays()+1;
 		return days;
 	}
 	public void setDays(long days) {
@@ -82,13 +82,15 @@ public class Reservation {
 	public void setRl(List<Rooms> rl) {
 		this.rl = rl;
 	}
-
+//need to make a new function this is redundant
 public boolean checkReserved(Reservation res, List<Reservation> rl) {
 	List<Reservation> overlapReservation = new ArrayList<>();
 	for(Reservation r : rl) {
 		if(LocalDate.parse(r.getArrival()).isBefore(LocalDate.parse(res.getDeparture())) && LocalDate.parse(r.getDeparture()).isAfter(LocalDate.parse(res.getArrival()))) {
 			System.out.println("Does Overlap");
+			System.out.println("Reservations room size "+r.getRl().size());
 			overlapReservation.add(r);
+			System.out.println("Size of OverlapReservation "+overlapReservation.size());
 		}else {
 			System.out.println("Does not Overlap");
 		}
@@ -98,6 +100,7 @@ public boolean checkReserved(Reservation res, List<Reservation> rl) {
 		System.out.println("overlap arrival "+r.arrival);
 		for(Rooms resRoom : res.getRl()) {
 			System.out.println("resRoom "+resRoom.getRoomId());
+			System.out.println("Overlap Room size "+r.getRl().size());
 			for(Rooms room : r.getRl()) {
 				System.out.println("Maded Reservations "+room.getRoomId());
 				System.out.println("To be made "+resRoom.getRoomId());
@@ -109,4 +112,30 @@ public boolean checkReserved(Reservation res, List<Reservation> rl) {
 	}
 	return true;
 }
+
+public String createJSON() {
+	String roomIds ="[";
+	for(int i = 0; i< rl.size(); i++) {
+		roomIds+="\"";
+		roomIds+=rl.get(i).getRoomId();
+		if(i<rl.size()-1) {
+		roomIds+="\" , ";
+		}else {
+			roomIds+="\"";
+		}
+	}
+	roomIds+="]";
+	String str ="{\"reservId\" : \""+reservId+"\","
+			+ "\"guestName\" : \""+guestName+"\","
+			+ "\"email\" : \""+email+"\","
+			+ "\"phone\" : \""+phone+"\","
+			+ "\"arrival\" : \""+arrival+"\","
+			+ "\"departure\" : \""+departure+"\","
+			+ "\"roomIds\" : "+roomIds+","
+			+ "\"rooms\" : \""+rooms+"\","
+			+ "\"days\" : \""+getDays()+"\","
+			+ "\"price\" : \""+getPrice()+"\"}";
+	return str;
+}
+
 }

@@ -4,33 +4,34 @@
 <meta charset="ISO-8859-1">
 <title>TwoBitheads BnB</title>
 <link rel="stylesheet" href="main.css" >
+<script src="reserv.js"></script>
 </head>
-<body>
+<body onload="minArrival()">
 <header><button><a href="MadeReservations.html">Made Reservations</a></button></header>
 <h1>Add Reservation</h1>
-	<form name="loginForm" method="post" action="Reservations" class="resForm">
+	<form name="loginForm" method="post" action="Reservations" class="resForm" onsubmit="validRooms()">
 	<table>
 		<tr><td> Full Name: <input type="text" name="username" required/></td></tr>
 		<tr><td>Email: <input type="email" name="email" placeholder="my@email.com"/>
 		<tr><td>Phone: <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx"/></td></tr>
-		<tr><td>Arrival Date:<input type="date" name="arrival" required/></td></tr>
-		<tr><td>Departure Date:<input type="date" name="departure" required/></td></tr>
+		<tr><td>Arrival Date:<input type="date" name="arrival" id="arrival" onchange="minDeparture()" required/></td></tr>
+		<tr><td>Departure Date:<input type="date" name="departure" id="departure" onchange="validRooms()"required/></td></tr>
 		<tr><td>Rooms:<br/>
-		    <input type="checkbox" name="room1" value="1">
+		    <input type="checkbox" name="room1" id="room1" value="1">
 		    <label for="room1">1</label>
-		    <input type="checkbox" name="room2" value="2">
+		    <input type="checkbox" name="room2" id="room2" value="2">
 		    <label for="room2">2</label>
-		    <input type="checkbox" name="room3" value="3">
+		    <input type="checkbox" name="room3" id="room3" value="3">
 		    <label for="room3">3</label>
-		    <input type="checkbox" name="room4" value="4">
+		    <input type="checkbox" name="room4" id="room4" value="4">
 		    <label for="room4">4</label><br>
-		    <input type="checkbox" name="room5" value="5">
+		    <input type="checkbox" name="room5" id="room5" value="5">
 		    <label for="room5">5</label>
-		    <input type="checkbox" name="room6" value="6">
+		    <input type="checkbox" name="room6" id="room6" value="6">
 		    <label for="room6">6</label>
-		    <input type="checkbox" name="room7" value="7">
+		    <input type="checkbox" name="room7" id="room7" value="7">
 		    <label for="room7">7</label>
-		    <input type="checkbox" name="room8" value="8">
+		    <input type="checkbox" name="room8" id="room8" value="8">
 		    <label for="room8">8</label><br>
     	</td></tr>
     	<tr><td><input type="submit" value="Create Reservation" class="button"/></td></tr>

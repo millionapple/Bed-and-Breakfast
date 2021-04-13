@@ -2,6 +2,8 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.Reservation;
+import beans.Rooms;
 import dao.ReservationDao;
 
 /**
@@ -24,29 +27,45 @@ public class ReservationsDelete extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter(); 
 		ReservationDao rd = new ReservationDao();
 		Reservation r = new Reservation();
+		List<Reservation> rl = new ArrayList<>();
 		r.reservId = Integer.parseInt(request.getParameter("resId"));
 		r.setGuestName(request.getParameter("username"));
 		r.setEmail(request.getParameter("email"));
 		r.setPhone(request.getParameter("phone"));
 		r.setArrival(request.getParameter("arrival"));
 		r.setDeparture(request.getParameter("departure"));
-		r.setRooms(Integer.parseInt(request.getParameter("rooms")));
+		for(int i = 1; i<=8; i++) {
+			if(request.getParameter("room"+i) != null) {
+				Rooms room = new Rooms();
+				room.setRoomId(Integer.parseInt(request.getParameter("room"+i)));
+				r.getRl().add(room);
+			}
+		}
+		r.setRooms(r.getRl().size());
 		try {
-			rd.updateReservation(r);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			rl = rd.getAllOtherReservations();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		if(r.checkReserved(r, rl)) {
+			try {
+				rd.updateReservation(r);
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			try {
+				rd.deleteRoom(Integer.toString(r.reservId));
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			try {
+				rd.updateRooms(r);
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 		response.sendRedirect("MadeReservations.html");
 	}

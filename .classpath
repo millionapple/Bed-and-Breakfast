@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_241">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
@@ -20,5 +21,8 @@
 	<classpathentry kind="lib" path="C:/Users/garre/.m2/repository/com/oracle/ojdbc/ojdbc8/19.3.0.0/ojdbc8-19.3.0.0-sources.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-8.0.17.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-8.0.17-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/garre/Documents/JacksonJars/jackson-core-2.12.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/garre/Documents/JacksonJars/jackson-databind-2.12.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/garre/Documents/JacksonJars/jackson-annotations-2.12.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

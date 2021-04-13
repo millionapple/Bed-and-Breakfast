@@ -2,14 +2,28 @@ function getReservations() {
 		  var xhttp = new XMLHttpRequest();
 		  xhttp.onreadystatechange = function() {
 		    if (this.readyState == 4 && this.status == 200) {
-		      document.getElementById("demo").innerHTML = this.responseText;
+		    	let reqs = this.responseText;
+		         reqs = JSON.parse(reqs);
+		         var str = "";
+			     var res = reqs.reservation;
+		         for(i in res){
+		        	 str += "<tr id='"+res[i].reservId+"'><td>"+res[i].reservId+"</td><td>"+res[i].guestName+"</td><td>"+res[i].email+"</td><td>"+res[i].phone+"</td>" +
+		        	 		"<td>"+res[i].arrival+"</td><td>"+res[i].departure+"</td><td>"+res[i].rooms+"</td><td>"+res[i].days+"</td><td>"+res[i].price+"</td>" +
+		        	 		"<td><button onclick=\"deleteReservation()\" id=\""+res[i].reservId+"\">Delete</button></td>" +
+		        	 		"<td><input type=\"button\" onClick=\"updateForm()\" value=\"Update\" id=\""+res[i].reservId+"\"/></td></tr>"
+		         }
+		         document.getElementById("demo").innerHTML = "<table>" +
+		      		"<tr><th>Reservation id</th><th>Guest Name</th><th>Email</th><th>Phone</th><th>Arrival</th><th>Departure</th>" +
+		      		"<th>Rooms</th><th>Days</th><th>Price</th><th>Delete</th><th>Update</th></tr>" +
+		      		str+
+		      		"</table>";
+		      console.log(reqs);
 		    }
 		  };
 		  xhttp.open("GET", "Reservations", true);
 		  xhttp.send();
 		}
 function deleteReservation(){
-	console.log("hello");
 	let btn = event.target;
 	let id = btn.id;
 	console.log(id);
@@ -34,14 +48,14 @@ function updateForm(){
 	let id = btn.id;
 	var info = document.getElementById(id).childNodes;
 	var modal = document.getElementById("myModal");
-	console.log(info);
+	console.log(info[4].innerText);
 	document.getElementById("resId").setAttribute("value", info[0].innerText);
 	document.getElementById("name").setAttribute("value", info[1].innerText);
 	document.getElementById("email").setAttribute("value", info[2].innerText);
 	document.getElementById("phone").setAttribute("value", info[3].innerText);
-	document.getElementById("arrival").setAttribute("value", info[5].innerText);
-	document.getElementById("departure").setAttribute("value", info[6].innerText);
-	document.getElementById("rooms").setAttribute("value", info[7].innerText);
+	document.getElementById("arrival").setAttribute("value", info[4].innerText);
+	document.getElementById("departure").setAttribute("value", info[5].innerText);
+//	document.getElementById("rooms").setAttribute("value", info[7].innerText);
 	 modal.style.display = "block";
 	 
 }
@@ -49,5 +63,46 @@ function updateForm(){
 function closeModal(){
 	var modal = document.getElementById("myModal");
 	 modal.style.display = "none";
+	 location.reload();
+}
+
+function minArrival(){
+	arrival.min = new Date().toISOString().split("T")[0];
+}
+function minDeparture(){
+	departure.min = arrival.value;
+	validRooms();
+}
+
+// this one could probably be move to java and just return a list of true or false
+function validRooms(){
+	var arrival = document.getElementById("arrival");
+	var departure = document.getElementById("departure");
+	if(arrival.value && departure.value){
+		console.log("Getting all Reservations");
+		    let xhttp = new XMLHttpRequest();
+		    xhttp.onreadystatechange = parseReservations;
+		    xhttp.open('GET', 'Reservations');
+		    xhttp.send();
+		    function parseReservations(){
+				 if (xhttp.readyState === 4 && xhttp.status === 200) {
+			         let reqs = this.responseText;
+			         reqs = JSON.parse(reqs);
+			         var res = reqs.reservation;
+			         for(var i = 1; i < 8; i++){
+				 			document.getElementById("room"+i).disabled = false;
+				 		}
+			         for(i in res){
+			        	 if(res[i].arrival < departure.value && res[i].departure > arrival.value){
+			        		 for(r in res[i].roomIds){
+				        		 document.getElementById("room"+res[i].roomIds[r]).disabled = true;
+			        		 }
+			        	 }
+			         }
+			         
+				 }
+			}
+		    
+	};
 }
 
