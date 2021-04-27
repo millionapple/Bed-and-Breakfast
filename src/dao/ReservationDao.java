@@ -16,21 +16,21 @@ import beans.Rooms;
 
 public class ReservationDao {
 	//for some reason that I don't know yet it will not connect to the driver
-	public int addReservation(Reservation r) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public int addReservation(Reservation reservation) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		int resid = 0;
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement("Insert into reservations( guestname, email, phone, arrival, departure, rooms, price, days)\r\n" + 
 					"values(?,?,?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, r.getGuestName());
-			stmt.setString(2, r.getEmail());
-			stmt.setString(3, r.getPhone());
-			stmt.setString(4, r.getArrival());
-			stmt.setString(5, r.getDeparture());
-			stmt.setInt(6, r.getRooms());
-			stmt.setDouble(7, r.getPrice());
-			stmt.setInt(8, (int) r.getDays());
+			stmt.setString(1, reservation.getGuestName());
+			stmt.setString(2, reservation.getEmail());
+			stmt.setString(3, reservation.getPhone());
+			stmt.setString(4, reservation.getArrival());
+			stmt.setString(5, reservation.getDeparture());
+			stmt.setInt(6, reservation.getRooms());
+			stmt.setDouble(7, reservation.getPrice());
+			stmt.setInt(8, (int) reservation.getDays());
 			int rowsUpdated = stmt.executeUpdate();
 			ResultSet res = stmt.getGeneratedKeys();
 			while(res.next()) {
@@ -50,62 +50,62 @@ public class ReservationDao {
 }
 	
 	public ArrayList<Reservation> getAllReservations() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
-		ArrayList<Reservation> rl = new ArrayList<>();
+		ArrayList<Reservation> listOfReservationsFromDatabase = new ArrayList<>();
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			PreparedStatement stmt = conn.prepareStatement("select * from reservations");
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				Reservation r = new Reservation();
+			ResultSet resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				Reservation reservationFromDatabase = new Reservation();
 				 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				 dateFormat.setTimeZone(TimeZone.getTimeZone("CT"));
-				r.reservId = rs.getInt("idreservations");
-				r.setGuestName(rs.getString("guestname"));
-				r.setEmail(rs.getString("email"));
-				r.setPhone(rs.getString("phone"));
-				r.setArrival(dateFormat.format(rs.getDate("arrival")));
-				r.setDeparture(dateFormat.format(rs.getDate("departure")));
-				r.setRooms(rs.getInt("rooms"));
-				rl.add(r);
+				reservationFromDatabase.reservId = resultSet.getInt("idreservations");
+				reservationFromDatabase.setGuestName(resultSet.getString("guestname"));
+				reservationFromDatabase.setEmail(resultSet.getString("email"));
+				reservationFromDatabase.setPhone(resultSet.getString("phone"));
+				reservationFromDatabase.setArrival(dateFormat.format(resultSet.getDate("arrival")));
+				reservationFromDatabase.setDeparture(dateFormat.format(resultSet.getDate("departure")));
+				reservationFromDatabase.setRooms(resultSet.getInt("rooms"));
+				listOfReservationsFromDatabase.add(reservationFromDatabase);
 			}
 		}catch(Exception e){
 			System.out.println(e);
 		}
 		
-		return rl;
+		return listOfReservationsFromDatabase;
 	}
 
 	public List<Reservation> getAllOtherReservations() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
-		List<Reservation> rl = new ArrayList<>();
+		List<Reservation> listOfAllOtherReservations = new ArrayList<>();
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			PreparedStatement stmt = conn.prepareStatement("select * from reservations where idreservations != ?;");
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				Reservation r = new Reservation();
+			ResultSet resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				Reservation reservationFromDatabase = new Reservation();
 				 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				 dateFormat.setTimeZone(TimeZone.getTimeZone("CT"));
-				r.reservId = rs.getInt("idreservations");
-				r.setGuestName(rs.getString("guestname"));
-				r.setEmail(rs.getString("email"));
-				r.setPhone(rs.getString("phone"));
-				r.setArrival(dateFormat.format(rs.getDate("arrival")));
-				r.setDeparture(dateFormat.format(rs.getDate("departure")));
-				r.setRooms(rs.getInt("rooms"));
-				rl.add(r);
+				reservationFromDatabase.reservId = resultSet.getInt("idreservations");
+				reservationFromDatabase.setGuestName(resultSet.getString("guestname"));
+				reservationFromDatabase.setEmail(resultSet.getString("email"));
+				reservationFromDatabase.setPhone(resultSet.getString("phone"));
+				reservationFromDatabase.setArrival(dateFormat.format(resultSet.getDate("arrival")));
+				reservationFromDatabase.setDeparture(dateFormat.format(resultSet.getDate("departure")));
+				reservationFromDatabase.setRooms(resultSet.getInt("rooms"));
+				listOfAllOtherReservations.add(reservationFromDatabase);
 			}
 		}catch(Exception e){
 			System.out.println(e);
 		}
 		
-		return rl;
+		return listOfAllOtherReservations;
 	}
-	public void deleteReservation(String resId) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public void deleteReservation(String reservationId) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			PreparedStatement stmt = conn.prepareStatement("DELETE FROM `twobitheadsbnb`.`reservations` WHERE (`idreservations` = ?);");
-			stmt.setString(1, resId);
-			System.out.println(resId);
+			stmt.setString(1, reservationId);
+			System.out.println(reservationId);
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
 				System.out.println("The comment request was successful!");
@@ -119,19 +119,19 @@ public class ReservationDao {
 		}
 	}
 
-	public void updateReservation(Reservation r) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public void updateReservation(Reservation reservationToSendToDatabase) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement("UPDATE `twobitheadsbnb`.`reservations` SET `guestname` = ?, `email` = ?, `phone` = ?, `arrival` = ?, `departure` = ?, `rooms` = ?, `price` = ? WHERE (`idreservations` = ?);");
-			stmt.setString(1, r.getGuestName());
-			stmt.setString(2, r.getEmail());
-			stmt.setString(3, r.getPhone());
-			stmt.setString(4, r.getArrival());
-			stmt.setString(5, r.getDeparture());
-			stmt.setInt(6, r.getRooms());
-			stmt.setDouble(7, r.getPrice());
-			stmt.setInt(8, r.reservId);
+			stmt.setString(1, reservationToSendToDatabase.getGuestName());
+			stmt.setString(2, reservationToSendToDatabase.getEmail());
+			stmt.setString(3, reservationToSendToDatabase.getPhone());
+			stmt.setString(4, reservationToSendToDatabase.getArrival());
+			stmt.setString(5, reservationToSendToDatabase.getDeparture());
+			stmt.setInt(6, reservationToSendToDatabase.getRooms());
+			stmt.setDouble(7, reservationToSendToDatabase.getPrice());
+			stmt.setInt(8, reservationToSendToDatabase.reservId);
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
 				System.out.println("The comment request was successful!");
@@ -145,14 +145,14 @@ public class ReservationDao {
 		}
 	}
 
-	public void addRooms(int id, List<Rooms> rl) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public void addRooms(int reservationId, List<Rooms> listOfRoomsInReservation) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			conn.setAutoCommit(false);
-			for(Rooms r :rl) {
+			for(Rooms r :listOfRoomsInReservation) {
 			PreparedStatement stmt = conn.prepareStatement("insert into `twobitheadsbnb`.`reserv_rooms` (`reservid`, `roomid`) \r\n" + 
 					"values (?,?);");
-			stmt.setInt(1, id);
+			stmt.setInt(1, reservationId);
 			stmt.setInt(2, r.getRoomId());
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
@@ -167,12 +167,12 @@ public class ReservationDao {
 		System.out.println(e);
 	}
 }
-	public void deleteRoom(String resId) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public void deleteRoom(String reservationId) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			PreparedStatement stmt = conn.prepareStatement("DELETE FROM `twobitheadsbnb`.`reserv_rooms` WHERE (`reservid` = ?);");
-			stmt.setString(1, resId);
-			System.out.println(resId);
+			stmt.setString(1, reservationId);
+			System.out.println(reservationId);
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
 				System.out.println("The comment request was successful!");
@@ -186,34 +186,34 @@ public class ReservationDao {
 		}
 	}
 	//I Think I found the Problem it is putting all of the Rooms in all reservations
-	public void getReservationRooms(List<Reservation> rl) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public void getReservationRooms(List<Reservation> listOfReservations) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
-			for(Reservation res : rl) {
+			for(Reservation reservation : listOfReservations) {
 				List<Rooms> roomList = new ArrayList<>();
 				PreparedStatement stmt = conn.prepareStatement("select roomid from reserv_rooms where reservid = ?;");
-				stmt.setInt(1, res.reservId);
-				ResultSet rs = stmt.executeQuery();
-				while(rs.next()) {
-					Rooms r = new Rooms();
-					r.setRoomId(rs.getInt("roomid"));
-					roomList.add(r);
+				stmt.setInt(1, reservation.reservId);
+				ResultSet resultSet = stmt.executeQuery();
+				while(resultSet.next()) {
+					Rooms rooms = new Rooms();
+					rooms.setRoomId(resultSet.getInt("roomid"));
+					roomList.add(rooms);
 				}
-				res.setRl(roomList);
+				reservation.setRl(roomList);
 			}
 		}catch(Exception e){
 			System.out.println(e);
 		}
 	}
 
-	public void updateRooms(Reservation r) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public void updateRooms(Reservation reservation) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
 			conn.setAutoCommit(false);
-			for(Rooms room : r.getRl()) {
+			for(Rooms room : reservation.getRl()) {
 			PreparedStatement stmt = conn.prepareStatement("insert into `twobitheadsbnb`.`reserv_rooms` (`reservid`, `roomid`) \r\n" + 
 					"values (?,?);");
-			stmt.setInt(1, r.reservId);
+			stmt.setInt(1, reservation.reservId);
 			stmt.setInt(2, room.getRoomId());
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {

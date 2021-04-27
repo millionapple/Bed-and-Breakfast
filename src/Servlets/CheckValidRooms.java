@@ -33,20 +33,20 @@ public class CheckValidRooms extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String arrival = request.getParameter("arrival");
 		String departure = request.getParameter("departure");
-		ReservationDao rd = new ReservationDao();
+		ReservationDao reservationDao = new ReservationDao();
 		HashMap<Integer, Boolean> availableRooms = new HashMap<>();
-		ArrayList<Reservation> rl = new ArrayList<>();
+		ArrayList<Reservation> listOfReservations = new ArrayList<>();
 		try {
-			 rl = rd.getAllReservations();
+			 listOfReservations = reservationDao.getAllReservations();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		try {
-			rd.getReservationRooms(rl);
+			reservationDao.getReservationRooms(listOfReservations);
 		} catch(InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		availableRooms = checkAvailability(arrival, departure, rl);
+		availableRooms = checkAvailability(arrival, departure, listOfReservations);
 		String isRoomJson = "{ \"isAvailable\": [";
 		for(int i = 1; i <= availableRooms.size(); i++) {
 			if(i != 8) {

@@ -2,7 +2,6 @@ package Servlets;
 
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,52 +17,53 @@ import dao.ReservationDao;
 
 /**
  * Servlet implementation class ReservationsDelete
+ * change name later to reservationServletThatHandlesDeletes
  */
 @WebServlet("/ReservationsDelete")
 public class ReservationsDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ReservationDao rd = new ReservationDao();
+	ReservationDao reservationDao = new ReservationDao();
     public ReservationsDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-		ReservationDao rd = new ReservationDao();
-		Reservation r = new Reservation();
-		List<Reservation> rl = new ArrayList<>();
-		r.reservId = Integer.parseInt(request.getParameter("resId"));
-		r.setGuestName(request.getParameter("username"));
-		r.setEmail(request.getParameter("email"));
-		r.setPhone(request.getParameter("phone"));
-		r.setArrival(request.getParameter("arrival"));
-		r.setDeparture(request.getParameter("departure"));
+		ReservationDao reservationDao = new ReservationDao();
+		Reservation reservation = new Reservation();
+		List<Reservation> listOfReservations = new ArrayList<>();
+		reservation.reservId = Integer.parseInt(request.getParameter("resId"));
+		reservation.setGuestName(request.getParameter("username"));
+		reservation.setEmail(request.getParameter("email"));
+		reservation.setPhone(request.getParameter("phone"));
+		reservation.setArrival(request.getParameter("arrival"));
+		reservation.setDeparture(request.getParameter("departure"));
 		for(int i = 1; i<=8; i++) {
 			if(request.getParameter("room"+i) != null) {
 				Rooms room = new Rooms();
 				room.setRoomId(Integer.parseInt(request.getParameter("room"+i)));
-				r.getRl().add(room);
+				reservation.getRl().add(room);
 			}
 		}
-		r.setRooms(r.getRl().size());
+		reservation.setRooms(reservation.getRl().size());
 		try {
-			rl = rd.getAllOtherReservations();
+			listOfReservations = reservationDao.getAllOtherReservations();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		if(r.checkReserved(r, rl)) {
+		if(reservation.checkReserved(reservation, listOfReservations)) {
 			try {
-				rd.updateReservation(r);
+				reservationDao.updateReservation(reservation);
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			try {
-				rd.deleteRoom(Integer.toString(r.reservId));
+				reservationDao.deleteRoom(Integer.toString(reservation.reservId));
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			try {
-				rd.updateRooms(r);
+				reservationDao.updateRooms(reservation);
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -73,12 +73,12 @@ public class ReservationsDelete extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println(request.getParameter("id"));
 		try {
-			rd.deleteRoom(request.getParameter("id"));
+			reservationDao.deleteRoom(request.getParameter("id"));
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
 		try {
-			rd.deleteReservation(request.getParameter("id"));
+			reservationDao.deleteReservation(request.getParameter("id"));
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
