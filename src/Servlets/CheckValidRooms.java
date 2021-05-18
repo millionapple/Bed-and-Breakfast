@@ -63,20 +63,28 @@ public class CheckValidRooms extends HttpServlet {
 			ArrayList<Reservation> reservations) {
 		HashMap<Integer, Boolean> availability = new HashMap<>();
 		validateDates(arrival, departure);
-		for (int i = 1; i <= 8; i++) {
-			availability.put(i, true);
+		for (int roomNumber = 1; roomNumber <= 8; roomNumber++) {
+			availability.put(roomNumber, true);
 			for (Reservation reserv : reservations) {
-				if (LocalDate.parse(reserv.getArrival()).isBefore(LocalDate.parse(departure))
-						&& LocalDate.parse(reserv.getDeparture()).isAfter(LocalDate.parse(arrival))) {
-					for (Rooms room : reserv.getRl()) {
-						if (i == room.getRoomId()) {
-							availability.put(i, false);
-						}
-					}
+				if (reservationDateRangeOverlapping(arrival, departure, reserv)) {
+					updateRoomAvailability(availability, roomNumber, reserv);
 				}
 			}
 		}
 		return availability;
+	}
+
+	private void updateRoomAvailability(HashMap<Integer, Boolean> availability, int roomNumber, Reservation reserv) {
+		for (Rooms room : reserv.getRl()) {
+			if (roomNumber == room.getRoomId()) {
+				availability.put(roomNumber, false);
+			}
+		}
+	}
+
+	private boolean reservationDateRangeOverlapping(String arrival, String departure, Reservation reserv) {
+		return LocalDate.parse(reserv.getArrival()).isBefore(LocalDate.parse(departure))
+				&& LocalDate.parse(reserv.getDeparture()).isAfter(LocalDate.parse(arrival));
 	}
 
 	private void validateDates(String arrival, String departure) {
