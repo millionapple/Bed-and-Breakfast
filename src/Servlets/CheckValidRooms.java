@@ -59,17 +59,10 @@ public class CheckValidRooms extends HttpServlet {
 		response.getWriter().write(isRoomJson);
 	}
 	
-	private HashMap<Integer, Boolean> checkAvailability(String arrival, String departure,
+	public HashMap<Integer, Boolean> checkAvailability(String arrival, String departure,
 			ArrayList<Reservation> reservations) {
 		HashMap<Integer, Boolean> availability = new HashMap<>();
-		try {
-			LocalDate.parse(arrival);
-			LocalDate.parse(departure);
-		}catch(DateTimeParseException e) {
-			System.out.println(e);
-			IllegalArgumentException args = new IllegalArgumentException();
-			throw args;
-		}
+		validateDates(arrival, departure);
 		for (int i = 1; i <= 8; i++) {
 			availability.put(i, true);
 			for (Reservation reserv : reservations) {
@@ -85,5 +78,18 @@ public class CheckValidRooms extends HttpServlet {
 		}
 		return availability;
 	}
+
+	private void validateDates(String arrival, String departure) {
+		try {
+			LocalDate.parse(arrival);
+			LocalDate.parse(departure);
+		}catch(DateTimeParseException e) {
+			System.out.println(e);
+			IllegalArgumentException args = new IllegalArgumentException();
+			throw args;
+		}
+	}
+	
+	
 
 }
