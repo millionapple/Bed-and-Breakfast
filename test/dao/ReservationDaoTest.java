@@ -13,22 +13,11 @@ import org.junit.Test;
 import beans.Reservation;
 
 public class ReservationDaoTest {
-
-	boolean valid = false;
-	@Test
-	public void testConnection() {
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
-		valid = conn.isValid(10);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		assertEquals(valid, true);
-	}
 	
 	@Test
 	public void testGet() {
 		Reservation r = new Reservation();
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=TwoBitheads&password=TwoBitheadsBnB&serverTimezone=UTC")){
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=root&password=test123&serverTimezone=UTC")){
 			PreparedStatement stmt = conn.prepareStatement("select guestName from reservations where idreservations = 1;");
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
