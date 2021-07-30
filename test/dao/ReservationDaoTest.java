@@ -11,8 +11,23 @@ import java.sql.SQLException;
 import org.junit.Test;
 
 import beans.Reservation;
+import connection.ConnectionUtil;
 
 public class ReservationDaoTest {
+	
+	@Test
+	public void testBetterWayToConnect() {
+		boolean valid = false;
+		ConnectionUtil connUtil = new ConnectionUtil();
+		Connection conn = connUtil.getConnection();
+		try {
+			valid = conn.isValid(10);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+		}
+	assertEquals(valid, true);
+	}
 	
 	@Test
 	public void testGet() {
@@ -28,5 +43,7 @@ public class ReservationDaoTest {
 		}
 		assertEquals(r.getGuestName(), "Garrett");
 	}
+	
+	
 
 }
