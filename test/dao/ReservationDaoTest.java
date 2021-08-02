@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class ReservationDaoTest {
 		}
 	assertEquals(valid, true);
 	}
-	
+	//add before and after to the testGet()
 	@Test
 	public void testGet() {
 		Reservation r = new Reservation();
@@ -66,6 +67,17 @@ public class ReservationDaoTest {
 		
 		assertEquals(success, true);
 	}
+	@After
+	public void teardown() {
+		ReservationDao reservationDao = new ReservationDao();
+		
+		try {
+			reservationDao.deleteReservation("1");
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Before
 	public void init() {
 		ReservationDao reservationDao = new ReservationDao();
