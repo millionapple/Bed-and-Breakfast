@@ -13,13 +13,21 @@ import java.util.TimeZone;
 
 import beans.Reservation;
 import beans.Rooms;
+import connection.ConnectionUtil;
 
 public class ReservationDao {
-	//for some reason that I don't know yet it will not connect to the driver
+	public ReservationDao() {
+		
+	}
+	public ReservationDao(Connection conn) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int addReservation(Reservation reservation) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		int resid = 0;
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=root&password=test123&serverTimezone=UTC")){
+		ConnectionUtil connUtil = new ConnectionUtil();
+		try(Connection conn = connUtil.getConnection()){
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement("Insert into reservations( guestname, email, phone, arrival, departure, rooms, price, days)\r\n" + 
 					"values(?,?,?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
@@ -169,7 +177,8 @@ public class ReservationDao {
 }
 	public void deleteRoom(String reservationId) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=root&password=test123&serverTimezone=UTC")){
+		ConnectionUtil connUtil = new ConnectionUtil();
+		try(Connection conn = connUtil.getConnection()){
 			PreparedStatement stmt = conn.prepareStatement("DELETE FROM `twobitheadsbnb`.`reserv_rooms` WHERE (`reservid` = ?);");
 			stmt.setString(1, reservationId);
 			System.out.println(reservationId);

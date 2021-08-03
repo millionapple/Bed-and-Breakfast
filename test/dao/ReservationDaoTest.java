@@ -9,13 +9,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import beans.Reservation;
 import connection.ConnectionUtil;
 
 public class ReservationDaoTest {
+	
 	@Test
 	public void testBetterWayToConnect() {
 		boolean valid = false;
@@ -46,9 +49,35 @@ public class ReservationDaoTest {
 	}
 	
 	@Test
-	public void testAddReservation() {
-		ReservationDao reservationDao = new ReservationDao();
-		Reservation reservation = new Reservation();
+	public void testDeleteReservation() throws SQLException {
+		ConnectionUtil connUtil = new ConnectionUtil();
+		  Connection connection = connUtil.getConnection();
+		  connection.setAutoCommit(false);
+		  ReservationDao reservationDao = new ReservationDao(connection);
+		boolean success;
+		
+		try {
+			reservationDao.deleteReservation("1");
+			success = true;
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			success = false;
+			e.printStackTrace();
+		}finally {
+		    connection.rollback();
+		    connection.close();
+		  } 
+		
+		assertEquals(success, true);
+	}
+	
+
+	@Test
+	public void testAddReservation() throws Exception {
+	  ConnectionUtil connUtil = new ConnectionUtil();
+	  Connection connection = connUtil.getConnection();
+	  connection.setAutoCommit(false);
+	  ReservationDao reservationDao = new ReservationDao(connection);
+	  Reservation reservation = new Reservation();
 		reservation.setGuestName("Garrett");
 		reservation.setEmail("garrett@mail.com");
 		reservation.setPhone("123-456-7890");
@@ -63,51 +92,11 @@ public class ReservationDaoTest {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			success = false;
 			e.printStackTrace();
-		}
+		}finally {
+		    connection.rollback();
+		    connection.close();
+		  } 
 		
-		assertEquals(success, true);
+		assertEquals(success, true);  
 	}
-	@After
-	public void teardown() {
-		ReservationDao reservationDao = new ReservationDao();
-		
-		try {
-			reservationDao.deleteReservation("1");
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Before
-	public void init() {
-		ReservationDao reservationDao = new ReservationDao();
-		Reservation reservation = new Reservation();
-		reservation.setGuestName("test");
-		reservation.setEmail("test@mail.com");
-		reservation.setPhone("123-456-7890");
-		reservation.setArrival("2021-08-02");
-		reservation.setDeparture("2021-08-05");
-		reservation.setRooms(1);
-		try {
-			reservationDao.addReservation(reservation);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	@Test
-	public void testDeleteReservation() {
-		ReservationDao reservationDao = new ReservationDao();
-		boolean success;
-		try {
-			reservationDao.deleteReservation("");
-			success = true;
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			success = false;
-			e.printStackTrace();
-		}
-		
-		assertEquals(success, true);
-	}
-	
-
 }
