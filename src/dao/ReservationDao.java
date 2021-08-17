@@ -194,7 +194,6 @@ public class ReservationDao {
 			System.out.println(e);
 		}
 	}
-	//I Think I found the Problem it is putting all of the Rooms in all reservations
 	public void getReservationRooms(List<Reservation> listOfReservations) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/twobitheadsbnb?user=root&password=test123&serverTimezone=UTC")){
