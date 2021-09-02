@@ -14,11 +14,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import Servlets.CheckValidRooms;
+
 public class ReservationTest {
 	private static final String arrival = "2021-03-01";
 	private static final String departure = "2021-03-04";
 
 	HashMap<Integer, Boolean> expected = new HashMap<Integer, Boolean>();
+	CheckValidRooms checkValidRooms = new CheckValidRooms();
+	
 	@Test
 	public void testCompareDate() {
 		LocalDate start = LocalDate.parse("2021-01-10");
@@ -53,7 +57,7 @@ public class ReservationTest {
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
 		// act
-		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		HashMap<Integer, Boolean> actual = checkValidRooms.checkAvailability(arrival, departure, reservations);
 
 		// assert
 		assertEquals(expected, actual);
@@ -74,7 +78,7 @@ public class ReservationTest {
 		reservations.add(r1);
 
 		// act
-		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		HashMap<Integer, Boolean> actual = checkValidRooms.checkAvailability(arrival, departure, reservations);
 
 		// assert
 		assertEquals(expected, actual);
@@ -94,7 +98,7 @@ public class ReservationTest {
 		reservations.add(r1);
 
 		// act
-		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		HashMap<Integer, Boolean> actual = checkValidRooms.checkAvailability(arrival, departure, reservations);
 
 		// assert
 		assertEquals(expected, actual);
@@ -119,7 +123,7 @@ public class ReservationTest {
 		reservations.add(r1);
 
 		// act
-		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		HashMap<Integer, Boolean> actual = checkValidRooms.checkAvailability(arrival, departure, reservations);
 
 		// assert
 		assertEquals(expected, actual);
@@ -154,7 +158,7 @@ public class ReservationTest {
 		reservations.add(r2);
 
 		// act
-		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		HashMap<Integer, Boolean> actual = checkValidRooms.checkAvailability(arrival, departure, reservations);
 
 		// assert
 		assertEquals(expected, actual);
@@ -183,7 +187,7 @@ public class ReservationTest {
 		reservations.add(r2);
 		
 		//act
-		HashMap<Integer, Boolean> actual = checkAvailability(arrival, departure, reservations);
+		HashMap<Integer, Boolean> actual = checkValidRooms.checkAvailability(arrival, departure, reservations);
 		
 		//assert
 		assertEquals(expected, actual);
@@ -201,34 +205,8 @@ public class ReservationTest {
 		exception.expect(IllegalArgumentException.class);
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
         
-		checkAvailability("1982-24-01", "20", reservations);
+		checkValidRooms.checkAvailability("1982-24-01", "20", reservations);
 	}
 	
-	private HashMap<Integer, Boolean> checkAvailability(String arrival, String departure,
-			ArrayList<Reservation> reservations) {
-		HashMap<Integer, Boolean> availability = new HashMap<>();
-		try {
-			LocalDate.parse(arrival);
-			LocalDate.parse(departure);
-		}catch(DateTimeParseException e) {
-			System.out.println(e);
-			IllegalArgumentException args = new IllegalArgumentException();
-			throw args;
-		}
-		for (int i = 1; i <= 8; i++) {
-			availability.put(i, true);
-			for (Reservation reserv : reservations) {
-				if (LocalDate.parse(reserv.getArrival()).isBefore(LocalDate.parse(departure))
-						&& LocalDate.parse(reserv.getDeparture()).isAfter(LocalDate.parse(arrival))) {
-					for (Rooms room : reserv.getRl()) {
-						if (i == room.getRoomId()) {
-							availability.put(i, false);
-						}
-					}
-				}
-			}
-		}
-		return availability;
-	}
 
 }

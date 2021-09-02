@@ -74,7 +74,7 @@ function minDeparture(){
 	validRooms();
 }
 
-// this one could probably be move to java and just return a list of true or false
+
 function validRooms(){
 	var arrival = document.getElementById("arrival");
 	var departure = document.getElementById("departure");
@@ -82,24 +82,20 @@ function validRooms(){
 		console.log("Getting all Reservations");
 		    let xhttp = new XMLHttpRequest();
 		    xhttp.onreadystatechange = parseReservations;
-		    xhttp.open('GET', 'Reservations');
-		    xhttp.send();
+		    xhttp.open('POST', 'CheckValidRooms');
+		    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		    xhttp.send("arrival="+arrival.value+"&departure="+departure.value);
 		    function parseReservations(){
 				 if (xhttp.readyState === 4 && xhttp.status === 200) {
 			         let reqs = this.responseText;
 			         reqs = JSON.parse(reqs);
-			         var res = reqs.reservation;
-			         for(var i = 1; i < 8; i++){
-				 			document.getElementById("room"+i).disabled = false;
-				 		}
-			         for(i in res){
-			        	 if(res[i].arrival < departure.value && res[i].departure > arrival.value){
-			        		 for(r in res[i].roomIds){
-				        		 document.getElementById("room"+res[i].roomIds[r]).disabled = true;
-			        		 }
+			         console.log(reqs);
+			         var available = reqs.isAvailable;
+			         for(var i = 1; i<= 8; i++){
+			        	 if(available[i-1][i] == "false"){
+			        		 document.getElementById("room"+i).disabled = true;
 			        	 }
 			         }
-			         
 				 }
 			}
 		    
